@@ -1,0 +1,124 @@
+[
+  {
+    "id": "q1",
+    "question": "What is the capital of Australia?",
+    "questionType": "multipleChoice",
+    "choices": [
+      {
+        "answer": "Brisbane",
+        "correct": false
+      },
+      {
+        "answer": "Sydney",
+        "correct": false
+      },
+      {
+        "answer": "Canberra",
+        "correct": true
+      },
+      {
+        "answer": "Melbourne",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "q2",
+    "question": "What does BBC stand for?",
+    "questionType": "text",
+    "answer": "British Broadcasting Corporation"
+  },
+  {
+    "id": "q3",
+    "question": "What out of the following is NOT a continent?",
+    "questionType": "multipleChoice",
+    "choices": [
+      {
+        "answer": "Australia",
+        "correct": false
+      },
+      {
+        "answer": "India",
+        "correct": true
+      },
+      {
+        "answer": "Europe",
+        "correct": false
+      },
+      {
+        "answer": "North America",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "q4",
+    "question": "How long is an olympic swimming pool in metres?",
+    "questionType": "text",
+    "answer": "50"
+  },
+  {
+    "id": "q5",
+    "question": "The capital of Sweden is?",
+    "questionType": "text",
+    "answer": "Stockholm"
+  },
+  {
+    "id": "q6",
+    "question": "What is the highest mountain of the following?",
+    "questionType": "multipleChoice",
+    "choices": [
+      {
+        "answer": "Mt Fuji",
+        "correct": false
+      },
+      {
+        "answer": "Mt Blanc",
+        "correct": false
+      },
+      {
+        "answer": "Matterhorn",
+        "correct": false
+      },
+      {
+        "answer": "Mt Everest",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "id": "q7",
+    "question": "Area 51 is located in which US state?",
+    "questionType": "multipleChoice",
+    "choices": [
+      {
+        "answer": "California",
+        "correct": false
+      },
+      {
+        "answer": "Nevada",
+        "correct": true
+      },
+      {
+        "answer": "Texas",
+        "correct": false
+      },
+      {
+        "answer": "North Dakota",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "id": "q8",
+    "question": "Havana is the capital of what country?",
+    "questionType": "text",
+    "answer": "Cuba"
+  },
+  {
+    "id": "q9",
+    "question": "How many colours are there in a rainbow?",
+    "questionType": "text",
+    "answer": "7"
+  }
+]
