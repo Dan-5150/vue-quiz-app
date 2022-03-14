@@ -13,11 +13,13 @@ export default {
   components: {
     QuestionForm,
   },
+
   data() {
     return {
 
     }
   },
+
   methods: {
     submitForm(formData) {
       if (formData.questionType === 'text') {

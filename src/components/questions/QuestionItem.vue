@@ -41,12 +41,15 @@ export default {
       required: true,
     },
   },
+
   emits: ['delete-question'],
+
   computed: {
     editContactLink(id) {
       return `/questions/${id}/edit`
     },
   },
+
   methods: {
     correctAnswer(correct) {
       if (correct) {

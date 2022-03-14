@@ -118,7 +118,9 @@ export default {
       },
     },
   },
+
   emits: ['question-form'],
+
   data() {
     return {
       question: {
@@ -141,6 +143,7 @@ export default {
       formIsValid: true,
     }
   },
+
   created() {
     if (this.processType === 'edit') {
       this.question.value = this.editQuestion.question
@@ -153,6 +156,7 @@ export default {
       }
     }
   },
+
   methods: {
     validateForm() {
       this.formIsValid = true

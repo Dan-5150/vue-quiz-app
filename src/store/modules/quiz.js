@@ -14,37 +14,12 @@ export default {
 
   getters: {
     /**
-     * Gets user info
-     * @param {object} state Quiz state
-     * @returns User info
+     * Gets questions from questions store
+     * @param {object} _state 
+     * @param {object} _getters 
+     * @param {object} rootState 
+     * @returns 
      */
-    user(state) {
-      return state.user
-    },
-    /**
-     * Gets sort order
-     * @param {object} state Quiz state
-     * @returns Specified sort order
-     */
-    sortOrder(state) {
-      return state.sortOrder
-    },
-    /**
-     * Gets sort order
-     * @param {object} state Quiz state
-     * @returns Specified sort order
-     */
-    quizResults(state) {
-      return state.quizResults
-    },
-    /**
-     * Gets all sorted questions
-     * @param {object} state Questions state
-     * @returns All questions
-     */
-    sortedQuestions(state) {
-      return state.sortedQuestions
-    },
     questions(_state, _getters, rootState) {
       return rootState.questions.questions
     },
@@ -126,10 +101,10 @@ export default {
         state.sortedQuestions = [...getters.questions]
       } else if (payload === 'alphabetical-order') {
         state.sortedQuestions = [...getters.questions]
-        state.sortedQuestions.sort((a, b) => (a.question > b.question) && 1 || -1)
+        state.sortedQuestions.sort((a, b) => (a.question.localeCompare(b.question)))
       } else if (payload === 'question-type-order') {
         state.sortedQuestions = [...getters.questions]
-        state.sortedQuestions.sort((a, b) => (a.questionType > b.questionType) && 1 || -1)
+        state.sortedQuestions.sort((a, b) => (a.questionType.localeCompare(b.questionType)))
       }
       console.log('new-sort', state.sortedQuestions)
     },

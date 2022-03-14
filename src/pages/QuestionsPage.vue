@@ -15,21 +15,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import QuestionItem from '../components/questions/QuestionItem.vue'
 
 export default {
   components: {
     QuestionItem,
   },
-  data() {
-    return {
 
-    }
-  },
   computed: {
-    ...mapGetters('questions', ['questions']),
+    ...mapState('questions', ['questions']),
   },
+
   methods: {
     deleteQuestion(index) {
       this.$store.commit('questions/deleteQuestion', index)
@@ -37,6 +34,3 @@ export default {
   },
 }
 </script>
-
-<style>
-</style>

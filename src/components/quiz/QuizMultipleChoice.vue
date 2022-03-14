@@ -20,12 +20,15 @@ export default {
       required: true,
     },
   },
+
   emits: ['choice-select'],
+
   data() {
     return {
       choiceSelected: false,
     }
   },
+
   methods: {
     correctAnswer(correct) {
       if (this.choiceSelected) {

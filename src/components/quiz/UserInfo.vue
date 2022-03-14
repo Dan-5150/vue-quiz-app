@@ -31,6 +31,7 @@ export default {
       required: true,
     },
   },
+
   computed: {
     sortOrderText() {
       if (this.sortOrder === 'defined-order') {

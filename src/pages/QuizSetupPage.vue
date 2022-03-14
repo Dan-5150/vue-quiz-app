@@ -11,7 +11,7 @@
           to="/quiz-setup/new-user">
           New User
         </base-button>
-        <base-button v-if="!currentRoute"
+        <base-button v-else
           :link="true"
           classes="outline"
           to="/quiz-setup">
@@ -32,20 +32,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import UserInfo from '../components/quiz/UserInfo.vue'
 
 export default {
   components: {
     UserInfo,
   },
+
   data() {
     return {
       isLoading: false,
     }
   },
+
   computed: {
-    ...mapGetters('quiz', ['user', 'sortOrder', 'sortedQuestions']),
+    ...mapState('quiz', ['user', 'sortOrder', 'sortedQuestions']),
     currentRoute() {
       return this.$route.name === 'quiz-setup'
     },

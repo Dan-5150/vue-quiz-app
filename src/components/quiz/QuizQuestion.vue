@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import QuizMultipleChoice from './QuizMultipleChoice.vue'
 import QuizWritten from './QuizWritten.vue'
 
@@ -51,20 +51,23 @@ export default {
     QuizMultipleChoice,
     QuizWritten,
   },
+
   props: {
     id: {
       type: String,
       required: true,
     },
   },
+
   data() {
     return {
       selectedQuestion: null,
       correctAnswer: null,
     }
   },
+
   computed: {
-    ...mapGetters('quiz', ['sortedQuestions']),
+    ...mapState('quiz', ['sortedQuestions']),
     feedbackClass() {
       if (this.correctAnswer) {
         return 'correct'
@@ -80,10 +83,12 @@ export default {
       return lastQnIndex === currentQnIndex
     },
   },
+
   created() {
     this.selectedQuestion = this.sortedQuestions.find(question => question.id === this.id)
     console.log('current question', this.selectedQuestion)
   },
+
   methods: {
     choiceSelect(choice) {
       if (choice.correct) {

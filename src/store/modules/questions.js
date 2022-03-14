@@ -9,16 +9,7 @@ export default {
     }
   },
 
-  getters: {
-    /**
-     * Gets all questions
-     * @param {object} state Questions state
-     * @returns All questions
-     */
-    questions(state) {
-      return state.questions
-    },
-  },
+  getters: {},
 
   mutations: {
     /**

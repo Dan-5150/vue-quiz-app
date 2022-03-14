@@ -21,6 +21,7 @@
 <script>
 export default {
   name: 'HomePage',
+
   data() {
     return {
       appName: 'Quiz App',
@@ -29,6 +30,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

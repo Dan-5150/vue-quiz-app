@@ -10,31 +10,36 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import QuestionForm from '../components/questions/QuestionForm.vue'
 
 export default {
   components: {
     QuestionForm,
   },
+
   props: {
     id: {
       type: String,
       required: true,
     },
   },
+
   data() {
     return {
       selectedQuestion: null,
     }
   },
+
   computed: {
-    ...mapGetters('questions', ['questions']),
+    ...mapState('questions', ['questions']),
   },
+
   created() {
     this.selectedQuestion = this.questions.find(question => question.id === this.id)
     console.log(this.selectedQuestion)
   },
+
   methods: {
     submitForm(formData) {
       console.log('formData', formData)
@@ -63,6 +68,3 @@ export default {
   },
 }
 </script>
-
-<style>
-</style>

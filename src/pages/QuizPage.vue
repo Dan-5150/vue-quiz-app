@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     id: {
@@ -19,8 +20,13 @@ export default {
       required: true,
     },
   },
+
+  computed: {
+    ...mapState('quiz', ['sortedQuestions']),
+  },
+
   created() {
-    if (this.$store.getters['quiz/sortedQuestions'].length === 0) {
+    if (this.sortedQuestions.length === 0) {
       this.$router.replace('/quiz-setup')
     }
   },

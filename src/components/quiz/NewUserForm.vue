@@ -12,18 +12,20 @@
       </div>
       <div class="form-control">
         <label for="name">Age</label>
-        <base-button v-if="!user.age && !isLoading"
-          type="button"
-          classes="small"
-          @click.native="calculateUserAge">
-          Get Age
-        </base-button>
-        <input v-else-if="user.age && !isLoading"
-          id="name"
-          :value="user.age"
-          type="text"
-          disabled>
         <base-loading-spinner v-if="isLoading" />
+        <template v-else>
+          <input v-if="user.age"
+            id="name"
+            :value="user.age"
+            type="text"
+            disabled>
+          <base-button v-else
+            type="button"
+            classes="small"
+            @click.native="calculateUserAge">
+            Get Age
+          </base-button>
+        </template>
       </div>
       <div class="form-control">
         <label for="sort-order">Question Sort Order</label>
@@ -47,7 +49,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -75,12 +77,15 @@ export default {
       isLoading: false,
     }
   },
+
   computed: {
-    ...mapGetters('quiz', ['user']),
+    ...mapState('quiz', ['user']),
   },
+
   created() {
     this.$store.commit('quiz/clearUserInfo')
   },
+
   methods: {
     validateForm() {
       if (this.username.value === '') {

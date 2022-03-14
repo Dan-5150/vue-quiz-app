@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   beforeRouteLeave(to, from, next) {
@@ -55,17 +55,20 @@ export default {
       next(false)
     }
   },
+
   data() {
     return {
       score: 0,
     }
   },
+
   computed: {
-    ...mapGetters('quiz', ['sortedQuestions']),
+    ...mapState('quiz', ['sortedQuestions']),
     numQuestions() {
       return this.sortedQuestions.length
     },
   },
+
   // Redirect to home page if no quiz results found
   created() {
     if (this.sortedQuestions.length === 0) {
@@ -73,6 +76,7 @@ export default {
     }
     this.calcaulateScore()
   },
+
   methods: {
     correctChoice(choices) {
       for (const choice of choices) {

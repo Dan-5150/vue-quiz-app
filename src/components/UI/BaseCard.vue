@@ -8,6 +8,7 @@
 <script>
 export default {
   name: 'BaseCard',
+
   props: {
     classes: {
       type: String,

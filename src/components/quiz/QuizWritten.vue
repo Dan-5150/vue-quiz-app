@@ -25,12 +25,15 @@ export default {
       required: true,
     },
   },
+
   emits: ['written-select'],
+
   data() {
     return {
       answer: '',
     }
   },
+
   methods: {
     writtenSelect() {
       this.$emit('written-select', this.answer)
@@ -38,6 +41,3 @@ export default {
   },
 }
 </script>
-
-<style>
-</style>
