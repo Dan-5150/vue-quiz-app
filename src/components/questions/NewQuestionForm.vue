@@ -6,21 +6,17 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
 import QuestionForm from './QuestionForm.vue'
 
 export default {
   components: {
-    QuestionForm,
-  },
-
-  data() {
-    return {
-
-    }
+    'question-form': QuestionForm,
   },
 
   methods: {
+    ...mapMutations('questions', ['newQuestion']),
     submitForm(formData) {
       if (formData.questionType === 'text') {
         const newQuestion = {
@@ -30,7 +26,9 @@ export default {
           answer: formData.textAnswer,
         }
         console.log(newQuestion)
-        this.$store.commit('questions/newQuestion', newQuestion)
+        this.newQuestion(newQuestion)
+        // Using this.$store
+        // this.$store.commit('questions/newQuestion', newQuestion)
       } else if (formData.questionType === 'multipleChoice') {
         const newQuestion = {
           id: uuidv4(),
@@ -39,22 +37,12 @@ export default {
           choices: formData.choices,
         }
         console.log(newQuestion)
-        this.$store.commit('questions/newQuestion', newQuestion)
+        this.newQuestion(newQuestion)
+        // Using this.$store
+        // this.$store.commit('questions/newQuestion', newQuestion)
       }
       this.$router.replace('/questions')
     },
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.form-control {
-  position: relative;
-
-  button.small.red {
-    position: absolute;
-    top: -8px;
-    right: -3px;
-  }
-}
-</style>

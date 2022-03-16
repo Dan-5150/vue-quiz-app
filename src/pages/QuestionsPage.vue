@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import QuestionItem from '../components/questions/QuestionItem.vue'
 
 export default {
   components: {
-    QuestionItem,
+    'question-item': QuestionItem,
   },
 
   computed: {
@@ -28,9 +28,11 @@ export default {
   },
 
   methods: {
-    deleteQuestion(index) {
-      this.$store.commit('questions/deleteQuestion', index)
-    },
+    ...mapMutations('questions', ['deleteQuestion']),
+    // Using this.$store
+    // deleteQuestion(index) {
+    //   this.$store.commit('questions/deleteQuestion', index)
+    // },
   },
 }
 </script>

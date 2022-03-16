@@ -48,8 +48,8 @@ import QuizWritten from './QuizWritten.vue'
 
 export default {
   components: {
-    QuizMultipleChoice,
-    QuizWritten,
+    'quiz-multiple-choice': QuizMultipleChoice,
+    'quiz-written': QuizWritten,
   },
 
   props: {

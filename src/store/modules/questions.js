@@ -38,4 +38,6 @@ export default {
       state.questions.splice(questionIndex, 1, payload)
     },
   },
+
+  actions: {},
 }

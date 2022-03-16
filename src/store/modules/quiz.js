@@ -68,6 +68,13 @@ export default {
     sortQuizResults(state) {
       state.sortedQuestions.sort((a, b) => (a.isCorrect < b.isCorrect) && 1 || -1)
     },
+    /**
+     * Clears quiz results
+     * @param {object} state 
+     */
+    clearQuizResults(state) {
+      state.sortedQuestions = []
+    },
   },
 
   actions: {

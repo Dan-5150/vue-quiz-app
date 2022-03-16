@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   beforeRouteLeave(to, from, next) {
@@ -49,7 +49,9 @@ export default {
     // Display confirmation message
     const confirm = window.confirm('Are you sure you want to leave? All your quiz results will be cleared.')
     if (confirm) {
-      this.$store.commit('quiz/clearQuizResults')
+      this.clearQuizResults()
+      // Using this.$store
+      // this.$store.commit('quiz/clearQuizResults')
       next()
     } else {
       next(false)
@@ -78,6 +80,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations('quiz', {
+      sortResults: 'sortQuizResults',
+      clearQuizResults: 'clearQuizResults',
+    }),
     correctChoice(choices) {
       for (const choice of choices) {
         if (choice.correct) {
@@ -90,9 +96,10 @@ export default {
         if (question.isCorrect) this.score++
       }
     },
-    sortResults() {
-      this.$store.commit('quiz/sortQuizResults')
-    },
+    // Using this.$store
+    // sortResults() {
+    //   this.$store.commit('quiz/sortQuizResults')
+    // },
   },
 }
 </script>

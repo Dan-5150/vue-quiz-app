@@ -13,7 +13,7 @@ import TheHeader from './components/UI/TheHeader.vue'
 
 export default {
   components: {
-    TheHeader,
+    'the-header': TheHeader,
   },
 }
 </script>

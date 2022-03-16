@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   data() {
@@ -83,10 +83,13 @@ export default {
   },
 
   created() {
-    this.$store.commit('quiz/clearUserInfo')
+    this.clearUserInfo()
+    // Using this.$store
+    // this.$store.commit('quiz/clearUserInfo')
   },
 
   methods: {
+    ...mapMutations('quiz', ['clearUserInfo']),
     validateForm() {
       if (this.username.value === '') {
         this.username.isValid = false

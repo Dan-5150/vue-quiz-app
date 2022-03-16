@@ -37,7 +37,7 @@ import UserInfo from '../components/quiz/UserInfo.vue'
 
 export default {
   components: {
-    UserInfo,
+    'user-info': UserInfo,
   },
 
   data() {

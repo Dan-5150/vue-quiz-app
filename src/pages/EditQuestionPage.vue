@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import QuestionForm from '../components/questions/QuestionForm.vue'
 
 export default {
   components: {
-    QuestionForm,
+    'question-form': QuestionForm,
   },
 
   props: {
@@ -41,6 +41,9 @@ export default {
   },
 
   methods: {
+    ...mapMutations('questions', {
+      editQuestionStore: 'editQuestion',
+    }),
     submitForm(formData) {
       console.log('formData', formData)
       if (formData.questionType === 'multipleChoice') {
@@ -62,7 +65,9 @@ export default {
       }
     },
     editQuestion(question) {
-      this.$store.commit('questions/editQuestion', question)
+      // Using this.$store
+      // this.$store.commit('questions/editQuestion', question)
+      this.editQuestionStore(question)
       this.$router.replace('/questions')
     },
   },
