@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkquiz_app"]=self["webpackChunkquiz_app"]||[]).push([[942],{8384:function(t,n,e){e.r(n),e.d(n,{default:function(){return o}});var a=function(){var t=this,n=t.$createElement,e=t._self._c||n;return e("section",[e("base-card",[e("h1",[t._v("Page Not Found")]),e("p",[t._v("Go back and try again.")]),e("base-button",{attrs:{link:!0,to:"/"}},[t._v(" Back to Home ")])],1)],1)},u=[],r=e(1001),c={},l=(0,r.Z)(c,a,u,!1,null,null,null),o=l.exports}}]);
+//# sourceMappingURL=not-found-legacy.22fec816.js.map
