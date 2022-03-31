@@ -10,15 +10,21 @@
           type="text"
           @blur="clearValidity('username')">
       </div>
-      <div class="form-control">
+      <div class="form-control age-input">
         <label for="name">Age</label>
         <base-loading-spinner v-if="isLoading" />
         <template v-else>
-          <input v-if="user.age"
-            id="name"
-            :value="user.age"
-            type="text"
-            disabled>
+          <template v-if="user.age">
+            <input id="name"
+              :value="user.age"
+              type="text"
+              disabled>
+            <base-button type="button"
+              classes="small red"
+              @click.native="clearAge">
+              Clear
+            </base-button>
+          </template>
           <base-button v-else
             type="button"
             classes="small"
@@ -50,8 +56,13 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import BaseButton from '../UI/BaseButton.vue'
 
 export default {
+  components: { 
+    'base-button': BaseButton,
+  },
+
   data() {
     return {
       username: {
@@ -89,7 +100,10 @@ export default {
   },
 
   methods: {
-    ...mapMutations('quiz', ['clearUserInfo']),
+    ...mapMutations('quiz', ['clearUserInfo', 'updateSortOrder']),
+    clearAge() {
+      this.clearUserInfo()
+    },
     validateForm() {
       if (this.username.value === '') {
         this.username.isValid = false
@@ -115,7 +129,7 @@ export default {
     },
     submitForm() {
       this.validateForm()
-      this.$store.commit('quiz/updateSortOrder', this.selectedSortOrder)
+      this.updateSortOrder(this.selectedSortOrder)
       this.$store.dispatch('quiz/sortQuestions', this.selectedSortOrder)
       this.$router.replace('/quiz-setup')
     },
@@ -124,4 +138,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.age-input {
+  position: relative;
+
+  button.small.red {
+    position: absolute;
+    top: 32px;
+    right: 0;
+  }
+}
 </style>

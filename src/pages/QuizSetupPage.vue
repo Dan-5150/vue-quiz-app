@@ -36,6 +36,8 @@ import { mapState } from 'vuex'
 import UserInfo from '../components/quiz/UserInfo.vue'
 
 export default {
+  name: 'QuizSetupPage',
+
   components: {
     'user-info': UserInfo,
   },

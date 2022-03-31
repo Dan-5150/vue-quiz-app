@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import QuizMultipleChoice from './QuizMultipleChoice.vue'
 import QuizWritten from './QuizWritten.vue'
 
@@ -90,13 +90,14 @@ export default {
   },
 
   methods: {
+    ...mapMutations('quiz', ['addQuizResult']),
     choiceSelect(choice) {
       if (choice.correct) {
         this.correctAnswer = true
       } else {
         this.correctAnswer = false
       }
-      this.$store.commit('quiz/addQuizResult', {
+      this.addQuizResult({
         isCorrect: this.correctAnswer,
         response: choice.answer,
         index: this.sortedQuestions.findIndex(question => question.id === this.id),
@@ -108,7 +109,7 @@ export default {
       } else {
         this.correctAnswer = false
       }
-      this.$store.commit('quiz/addQuizResult', {
+      this.addQuizResult({
         isCorrect: this.correctAnswer,
         response: answer,
         index: this.sortedQuestions.findIndex(question => question.id === this.id),

@@ -14,6 +14,8 @@ import { mapMutations, mapState } from 'vuex'
 import QuestionForm from '../components/questions/QuestionForm.vue'
 
 export default {
+  name: 'EditQuestionPage',
+
   components: {
     'question-form': QuestionForm,
   },

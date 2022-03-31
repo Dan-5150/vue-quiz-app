@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from 'uuid'
 import QuestionForm from './QuestionForm.vue'
 
 export default {
+  name: 'NewQuestionForm',
+
   components: {
     'question-form': QuestionForm,
   },

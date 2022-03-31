@@ -19,6 +19,8 @@
 
 <script>
 export default {
+  name: 'QuizWritten',
+
   props: {
     question: {
       type: Object,

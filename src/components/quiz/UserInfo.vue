@@ -21,6 +21,8 @@
 
 <script>
 export default {
+  name: 'UserInfo',
+
   props: {
     user: {
       type: Object,

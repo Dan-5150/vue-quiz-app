@@ -14,6 +14,8 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+  name: 'QuizPage',
+
   props: {
     id: {
       type: String,

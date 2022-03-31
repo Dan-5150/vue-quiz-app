@@ -100,6 +100,8 @@
 
 <script>
 export default {
+  name: 'QuestionForm',
+
   props: {
     processType: {
       type: String,

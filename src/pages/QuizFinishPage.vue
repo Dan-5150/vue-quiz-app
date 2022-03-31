@@ -40,6 +40,8 @@
 import { mapMutations, mapState } from 'vuex'
 
 export default {
+  name: 'QuizFinishPage',
+
   beforeRouteLeave(to, from, next) {
     // Navigate away if no results found
     if (this.sortedQuestions.length === 0) {

@@ -14,6 +14,8 @@
 
 <script>
 export default {
+  name: 'QuizMultipleChoice',
+
   props: {
     question: {
       type: Object,

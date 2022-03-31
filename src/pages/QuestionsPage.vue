@@ -19,6 +19,8 @@ import { mapMutations, mapState } from 'vuex'
 import QuestionItem from '../components/questions/QuestionItem.vue'
 
 export default {
+  name: 'QuestionsPage',
+
   components: {
     'question-item': QuestionItem,
   },
