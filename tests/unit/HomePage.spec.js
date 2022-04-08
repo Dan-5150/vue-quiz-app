@@ -17,10 +17,12 @@ describe('HomePage.vue', () => {
       components: { BaseCard, BaseButton },
       stubs: ['router-link'],
     })
+
     const h1 = wrapper.findComponent('h1')
     const p = wrapper.findComponent('p')
     const button1 = wrapper.findAllComponents(BaseButton).at(0)
     const button2 = wrapper.findAllComponents(BaseButton).at(1)
+
     expect(h1.text()).toBe('Welcome to the Quiz App')
     expect(p.text()).toBe('Feel free to explore the app...')
     expect(button1.text()).toBe('Edit Questions')
