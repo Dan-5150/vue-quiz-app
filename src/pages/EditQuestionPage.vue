@@ -9,69 +9,63 @@
   </section>
 </template>
 
-<script>
-import { mapMutations, mapState } from 'vuex'
+<script setup>
+import { defineProps, ref, onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import QuestionForm from '../components/questions/QuestionForm.vue'
 
-export default {
-  name: 'EditQuestionPage',
+const store = useStore()
+const router = useRouter()
 
-  components: {
-    'question-form': QuestionForm,
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
   },
+})
 
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-  },
+const selectedQuestion = ref(null)
 
-  data() {
-    return {
-      selectedQuestion: null,
+/**
+ * Get selected question from route param id
+ */
+onBeforeMount(() => {
+  const questions = store.state.questions.questions
+  selectedQuestion.value = questions.find((question) => question.id === props.id)
+})
+
+/**
+ * Submit edited question
+ * @param {*} formData Edited question
+ */
+const submitForm = (formData) => {
+  console.log('formData', formData)
+  if (formData.questionType === 'multipleChoice') {
+    const editedQuestion = {
+      id: selectedQuestion.value.id,
+      question: formData.question,
+      questionType: formData.questionType,
+      choices: formData.choices,
     }
-  },
+    editQuestion(editedQuestion)
+  } else {
+    const editedQuestion = {
+      id: selectedQuestion.value.id,
+      question: formData.question,
+      questionType: formData.questionType,
+      answer: formData.textAnswer,
+    }
+    editQuestion(editedQuestion)
+  }
+}
 
-  computed: {
-    ...mapState('questions', ['questions']),
-  },
-
-  created() {
-    this.selectedQuestion = this.questions.find(question => question.id === this.id)
-    console.log(this.selectedQuestion)
-  },
-
-  methods: {
-    ...mapMutations('questions', {
-      editQuestionStore: 'editQuestion',
-    }),
-    submitForm(formData) {
-      console.log('formData', formData)
-      if (formData.questionType === 'multipleChoice') {
-        const editedQuestion = {
-          id: this.selectedQuestion.id,
-          question: formData.question,
-          questionType: formData.questionType,
-          choices: formData.choices,
-        }
-        this.editQuestion(editedQuestion)
-      } else {
-        const editedQuestion = {
-          id: this.selectedQuestion.id,
-          question: formData.question,
-          questionType: formData.questionType,
-          answer: formData.textAnswer,
-        }
-        this.editQuestion(editedQuestion)
-      }
-    },
-    editQuestion(question) {
-      // Using this.$store
-      // this.$store.commit('questions/editQuestion', question)
-      this.editQuestionStore(question)
-      this.$router.replace('/questions')
-    },
-  },
+/**
+ * Submit edited question and go back to questions page
+ * @param {*} question Edited question
+ */
+const editQuestion = (question) => {
+  store.commit('questions/editQuestion', question)
+  router.replace('/questions')
 }
 </script>

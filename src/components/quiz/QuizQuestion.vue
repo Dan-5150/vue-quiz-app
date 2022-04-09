@@ -78,14 +78,14 @@ export default {
       }
     },
     isLastQuestion() {
-      const currentQnIndex = this.sortedQuestions.findIndex(question => question.id === this.id)
+      const currentQnIndex = this.sortedQuestions.findIndex((question) => question.id === this.id)
       const lastQnIndex = this.sortedQuestions.length - 1
       return lastQnIndex === currentQnIndex
     },
   },
 
   created() {
-    this.selectedQuestion = this.sortedQuestions.find(question => question.id === this.id)
+    this.selectedQuestion = this.sortedQuestions.find((question) => question.id === this.id)
     console.log('current question', this.selectedQuestion)
   },
 
@@ -100,7 +100,7 @@ export default {
       this.addQuizResult({
         isCorrect: this.correctAnswer,
         response: choice.answer,
-        index: this.sortedQuestions.findIndex(question => question.id === this.id),
+        index: this.sortedQuestions.findIndex((question) => question.id === this.id),
       })
     },
     writtenSelect(answer) {
@@ -112,11 +112,11 @@ export default {
       this.addQuizResult({
         isCorrect: this.correctAnswer,
         response: answer,
-        index: this.sortedQuestions.findIndex(question => question.id === this.id),
+        index: this.sortedQuestions.findIndex((question) => question.id === this.id),
       })
     },
     nextQuestion() {
-      const currentIndex = this.sortedQuestions.findIndex(question => question.id === this.id)
+      const currentIndex = this.sortedQuestions.findIndex((question) => question.id === this.id)
       const newQuestion = this.sortedQuestions[currentIndex + 1]
       this.$router.replace(`/quiz/${newQuestion.id}`)
     },
@@ -137,7 +137,7 @@ export default {
   }
 }
 
-.fade-enter {
+.fade-enter-from {
   opacity: 0;
 
   // transform: translateX(50px);
@@ -151,7 +151,6 @@ export default {
 
 .fade-leave-to {
   opacity: 0;
-
   // transform: translateX(-50px);
 }
 

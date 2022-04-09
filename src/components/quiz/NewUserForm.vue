@@ -54,86 +54,97 @@
   </form>
 </template>
 
-<script>
-import { mapMutations, mapState } from 'vuex'
-import BaseButton from '../UI/BaseButton.vue'
+<script setup>
+import { computed, onBeforeMount, reactive, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
-export default {
-  components: { 
-    'base-button': BaseButton,
-  },
+const store = useStore()
+const router = useRouter()
 
-  data() {
-    return {
-      username: {
-        value: '',
-        isValid: true,
-      },
-      userAge: null,
-      sortOrder: [
-        {
-          name: 'Defined Order',
-          value: 'defined-order',
-        },
-        {
-          name: 'Alphabetical Order',
-          value: 'alphabetical-order',
-        },
-        {
-          name: 'Question Type Order',
-          value: 'question-type-order',
-        },
-      ],
-      selectedSortOrder: 'defined-order',
-      isLoading: false,
-    }
-  },
+const username = reactive({
+  value: '',
+  isValid: true,
+})
 
-  computed: {
-    ...mapState('quiz', ['user']),
+const sortOrder = ref([
+  {
+    name: 'Defined Order',
+    value: 'defined-order',
   },
+  {
+    name: 'Alphabetical Order',
+    value: 'alphabetical-order',
+  },
+  {
+    name: 'Question Type Order',
+    value: 'question-type-order',
+  },
+])
 
-  created() {
-    this.clearUserInfo()
-    // Using this.$store
-    // this.$store.commit('quiz/clearUserInfo')
-  },
+const selectedSortOrder = ref('defined-order')
 
-  methods: {
-    ...mapMutations('quiz', ['clearUserInfo', 'updateSortOrder']),
-    clearAge() {
-      this.clearUserInfo()
-    },
-    validateForm() {
-      if (this.username.value === '') {
-        this.username.isValid = false
-      }
-    },
-    async calculateUserAge() {
-      this.validateForm()
-      if (!this.username.isValid) return
-      this.isLoading = true
-      try {
-        await this.$store.dispatch('quiz/fetchUserAge', {
-          name: this.username.value,
-        })
-      } catch (error) {
-        this.error = error.message || 'Something went wrong!'
-      }
-      this.isLoading = false
-    },
-    clearValidity(input) {
-      if (this[input].value) {
-        this[input].isValid = true
-      }
-    },
-    submitForm() {
-      this.validateForm()
-      this.updateSortOrder(this.selectedSortOrder)
-      this.$store.dispatch('quiz/sortQuestions', this.selectedSortOrder)
-      this.$router.replace('/quiz-setup')
-    },
-  },
+const isLoading = ref(false)
+
+const user = computed(() => {
+  return store.state.quiz.user
+})
+
+/**
+ * Clear existing user info
+ */
+onBeforeMount(() => {
+  store.commit('quiz/clearUserInfo')
+})
+
+/**
+ * Clear calculated age
+ */
+const clearAge = () => {
+  store.commit('quiz/clearUserInfo')
+}
+
+/**
+ * Validate form
+ */
+const validateForm = () => {
+  if (username.value === '') {
+    username.isValid = false
+  }
+}
+
+/**
+ * Calculate user age based on name
+ */
+const calculateUserAge = async () => {
+  validateForm()
+  if (!username.isValid) return
+
+  isLoading.value = true
+  try {
+    await store.dispatch('quiz/fetchUserAge', {
+      name: username.value,
+    })
+  } catch (error) {
+    console.log(error.message || 'Something went wrong!')
+  }
+  isLoading.value = false
+}
+
+const clearValidity = (input) => {
+  if ([input].value) {
+    [input].isValid = true
+  }
+}
+
+/**
+ * Submit user data and sort questions
+ */
+const submitForm = () => {
+  validateForm()
+  store.commit('quiz/updateSortOrder', selectedSortOrder.value)
+  store.dispatch('quiz/sortQuestions', selectedSortOrder.value)
+  router.replace('/quiz-setup')
 }
 </script>
 

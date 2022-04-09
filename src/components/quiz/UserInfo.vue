@@ -19,35 +19,34 @@
   </section>
 </template>
 
-<script>
-export default {
-  name: 'UserInfo',
+<script setup>
+import { computed, defineProps } from 'vue'
 
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-    sortOrder: {
-      type: String,
-      required: true,
-    },
+const props = defineProps({
+  user: {
+    type: Object,
+    required: true,
   },
+  sortOrder: {
+    type: String,
+    required: true,
+  },
+})
 
-  computed: {
-    sortOrderText() {
-      if (this.sortOrder === 'defined-order') {
-        return 'Defined Order'
-      } else if (this.sortOrder === 'alphabetical-order') {
-        return 'Alphabetical Order'
-      } else if (this.sortOrder === 'question-type-order') {
-        return 'Question Type Order'
-      } else {
-        return null
-      }
-    },
-  },
-}
+/**
+ * Display correct sort order from submitted form
+ */
+const sortOrderText = computed(() => {
+  if (props.sortOrder === 'defined-order') {
+    return 'Defined Order'
+  } else if (props.sortOrder === 'alphabetical-order') {
+    return 'Alphabetical Order'
+  } else if (props.sortOrder === 'question-type-order') {
+    return 'Question Type Order'
+  } else {
+    return null
+  }
+})
 </script>
 
 <style lang="scss" scoped>

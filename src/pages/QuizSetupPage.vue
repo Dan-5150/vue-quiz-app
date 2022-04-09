@@ -31,34 +31,51 @@
   </section>
 </template>
 
-<script>
-import { mapState } from 'vuex'
+<script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import UserInfo from '../components/quiz/UserInfo.vue'
 
-export default {
-  name: 'QuizSetupPage',
+const route = useRoute()
+const store = useStore()
 
-  components: {
-    'user-info': UserInfo,
-  },
+/**
+ * Return user
+ */
+const user = computed(() => {
+  return store.state.quiz.user
+})
 
-  data() {
-    return {
-      isLoading: false,
-    }
-  },
+/**
+ * Return sort order
+ */
+const sortOrder = computed(() => {
+  return store.state.quiz.sortOrder
+})
 
-  computed: {
-    ...mapState('quiz', ['user', 'sortOrder', 'sortedQuestions']),
-    currentRoute() {
-      return this.$route.name === 'quiz-setup'
-    },
-    startQuizLink() {
-      const firstQuestion = this.sortedQuestions[0]
-      return `/quiz/${firstQuestion.id}`
-    },
-  },
-}
+/**
+ * Return sorted questions
+ */
+const sortedQuestions = computed(() => {
+  return store.state.quiz.sortedQuestions
+})
+
+/**
+ * Return if current route is quiz-setup
+ */
+const currentRoute = computed(() => {
+  return route.name === 'quiz-setup'
+})
+
+/**
+ * Return quiz link with first question as ID
+ */
+const startQuizLink = computed(() => {
+  if (sortedQuestions.value.ength === 0) return
+  const firstQuestion = sortedQuestions.value[0]
+  return `/quiz/${firstQuestion.id}`
+})
 </script>
 
 <style lang="scss" scoped>

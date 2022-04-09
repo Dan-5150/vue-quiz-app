@@ -36,74 +36,88 @@
   </section>
 </template>
 
-<script>
-import { mapMutations, mapState } from 'vuex'
+<script setup>
+import { ref, computed, onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter, onBeforeRouteLeave } from 'vue-router'
 
-export default {
-  name: 'QuizFinishPage',
+const router = useRouter()
+const store = useStore()
 
-  beforeRouteLeave(to, from, next) {
-    // Navigate away if no results found
-    if (this.sortedQuestions.length === 0) {
-      next()
-      return
-    }
-    // Display confirmation message
-    const confirm = window.confirm('Are you sure you want to leave? All your quiz results will be cleared.')
-    if (confirm) {
-      this.clearQuizResults()
-      // Using this.$store
-      // this.$store.commit('quiz/clearQuizResults')
-      next()
-    } else {
-      next(false)
-    }
-  },
+const score = ref(0)
 
-  data() {
-    return {
-      score: 0,
-    }
-  },
+/**
+ * Sort quiz results
+ */
+const sortResults = () => store.commit('quiz/sortQuizResults')
 
-  computed: {
-    ...mapState('quiz', ['sortedQuestions']),
-    numQuestions() {
-      return this.sortedQuestions.length
-    },
-  },
+/**
+ * Get sorted questions from quiz
+ */
+const sortedQuestions = computed(() => {
+  return store.state.quiz.sortedQuestions
+})
 
-  // Redirect to home page if no quiz results found
-  created() {
-    if (this.sortedQuestions.length === 0) {
-      this.$router.push('/')
-    }
-    this.calcaulateScore()
-  },
+/**
+ * Get number of questions in quiz
+ */
+const numQuestions = computed(() => {
+  return sortedQuestions.value.length
+})
 
-  methods: {
-    ...mapMutations('quiz', {
-      sortResults: 'sortQuizResults',
-      clearQuizResults: 'clearQuizResults',
-    }),
-    correctChoice(choices) {
-      for (const choice of choices) {
-        if (choice.correct) {
-          return choice.answer
-        }
-      }
-    },
-    calcaulateScore() {
-      for (const question of this.sortedQuestions) {
-        if (question.isCorrect) this.score++
-      }
-    },
-    // Using this.$store
-    // sortResults() {
-    //   this.$store.commit('quiz/sortQuizResults')
-    // },
-  },
+/**
+ * Redirect away from page if no quiz questions exist or begin calculating score
+ */
+onBeforeMount(() => {
+  if (sortedQuestions.value.length === 0) {
+    router.push('/')
+  }
+  calcaulateScore()
+})
+
+/**
+ * Loop through questions and calculate final score
+ */
+const calcaulateScore = () => {
+  for (const question of sortedQuestions.value) {
+    if (question.isCorrect) score.value++
+  }
 }
+
+/**
+ * Return correct multiple choice answer
+ * @param {*} choices Choices
+ */
+const correctChoice = (choices) => {
+  for (const choice of choices) {
+    if (choice.correct) {
+      return choice.answer
+    }
+  }
+}
+
+/**
+ * Display warning alert if routing away from page
+ * @param {*} _to 
+ * @param {*} _from 
+ * @param {*} next 
+ */
+onBeforeRouteLeave((_to, _from, next) => {
+  // Navigate away if no results found
+  if (store.state.quiz.sortedQuestions.length === 0) {
+    next()
+    return
+  }
+  // Display confirmation message
+  const confirm = window.confirm('Are you sure you want to leave? All your quiz results will be cleared.')
+  if (confirm) {
+    // this.clearQuizResults()
+    store.commit('quiz/clearQuizResults')
+    next()
+  } else {
+    next(false)
+  }
+})
 </script>
 
 <style lang="scss" scoped>

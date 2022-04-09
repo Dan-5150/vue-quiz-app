@@ -12,45 +12,44 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'QuizMultipleChoice',
+<script setup>
+import { ref, defineProps, defineEmits } from 'vue'
 
-  props: {
-    question: {
-      type: Object,
-      required: true,
-    },
+defineProps({
+  question: {
+    type: Object,
+    required: true,
   },
+})
 
-  emits: ['choice-select'],
+const emit = defineEmits(['choice-select'])
 
-  data() {
-    return {
-      choiceSelected: false,
+const choiceSelected = ref(false)
+
+/**
+ * Return class names if answer is correct or incorrect
+ * @param {boolean} correct Correct answer boolean
+ */
+const correctAnswer = (correct) => {
+  if (choiceSelected.value) {
+    if (correct) {
+      return 'correct'
+    } else {
+      return 'incorrect'
     }
-  },
+  }
+}
 
-  methods: {
-    correctAnswer(correct) {
-      if (this.choiceSelected) {
-        if (correct) {
-          return 'correct'
-        } else {
-          return 'incorrect'
-        }
-      }
-    },
-    choiceSelect(choice) {
-      // this.choiceSelected = true
-      // setTimeout(() => {
-      this.$emit('choice-select', {
-        correct: choice.correct,
-        answer: choice.answer,
-      })
-      // }, 500)
-    },
-  },
+/**
+ * Record selected answer against correct answer
+ * @param {*} choice 
+ */
+const choiceSelect = (choice) => {
+  // choiceSelected.value = true
+  emit('choice-select', {
+    correct: choice.correct,
+    answer: choice.answer,
+  })
 }
 </script>
 

@@ -3,40 +3,51 @@
     <base-card>
       <h1>The Quiz</h1>
       <p>Try not to lose...</p>
-      <transition name="quiz-route"
-        mode="out-in">
-        <router-view :key="$route.fullPath" />
-      </transition>
+      <router-view v-slot="{ Component, route }">
+        <transition name="quiz-route"
+          mode="out-in">
+          <component :is="Component"
+            :key="route.path" />
+        </transition>
+      </router-view>
     </base-card>
   </section>
 </template>
 
-<script>
-import { mapState } from 'vuex'
-export default {
-  name: 'QuizPage',
+<script setup>
+import { computed, defineProps, onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
+defineProps({
+  id: {
+    type: String,
+    required: true,
   },
+})
 
-  computed: {
-    ...mapState('quiz', ['sortedQuestions']),
-  },
+const store = useStore()
+const router = useRouter()
 
-  created() {
-    if (this.sortedQuestions.length === 0) {
-      this.$router.replace('/quiz-setup')
-    }
-  },
-}
+/**
+ * Get quiz sorted questions
+ */
+const sortedQuestions = computed(() => {
+  return store.state.quiz.sortedQuestions
+})
+
+/**
+ * Go back to quiz setup page if no questions are in quiz
+ */
+onBeforeMount(() => {
+  if (sortedQuestions.value.length === 0) {
+    router.replace('/quiz-setup')
+  }
+})
 </script>
 
 <style lang="scss" scoped>
-.quiz-route-enter {
+.quiz-route-enter-from {
   opacity: 0;
   transform: translateX(50px);
 }

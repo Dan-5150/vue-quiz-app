@@ -33,37 +33,36 @@
   </transition-group>
 </template>
 
-<script>
-export default {
-  name: 'QuestionItem',
+<script setup>
+import { defineProps, defineEmits } from 'vue'
 
-  props: {
-    questions: {
-      type: Array,
-      required: true,
-    },
+defineProps({
+  questions: {
+    type: Array,
+    required: true,
   },
+})
 
-  emits: ['delete-question'],
+const emit = defineEmits(['delete-question'])
 
-  computed: {
-    editContactLink(id) {
-      return `/questions/${id}/edit`
-    },
-  },
+/**
+ * Return class names if answer is correct or incorrect
+ * @param {boolean} correct Correct answer boolean
+ */
+const correctAnswer = (correct) => {
+  if (correct) {
+    return 'correct'
+  } else {
+    return 'incorrect'
+  }
+}
 
-  methods: {
-    correctAnswer(correct) {
-      if (correct) {
-        return 'correct'
-      } else {
-        return 'incorrect'
-      }
-    },
-    deleteQuestion(index) {
-      this.$emit('delete-question', index)
-    },
-  },
+/**
+ * Delete question
+ * @param {number} index Index of question to delete
+ */
+const deleteQuestion = (index) => {
+  emit('delete-question', index)
 }
 </script>
 

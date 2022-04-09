@@ -1,8 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -57,14 +54,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "quiz-finish" */ '../pages/QuizFinishPage.vue'),
   },
   {
-    path: '*',
+    path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import(/* webpackChunkName: "not-found" */ '../pages/PageNotFound.vue'),
   },
 ]
 
-const router = new VueRouter({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(),
   base: process.env.BASE_URL,
   routes,
 })

@@ -17,29 +17,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'QuizWritten',
+<script setup>
+import { ref, defineProps, defineEmits } from 'vue'
 
-  props: {
-    question: {
-      type: Object,
-      required: true,
-    },
+defineProps({
+  question: {
+    type: Object,
+    required: true,
   },
+})
 
-  emits: ['written-select'],
+const emit = defineEmits(['written-select'])
 
-  data() {
-    return {
-      answer: '',
-    }
-  },
+const answer = ref('')
 
-  methods: {
-    writtenSelect() {
-      this.$emit('written-select', this.answer)
-    },
-  },
+/**
+ * Record answer given
+ */
+const writtenSelect = () => {
+  emit('written-select', answer.value)
 }
 </script>

@@ -1,10 +1,12 @@
 <template>
   <div id="app">
     <the-header />
-    <transition name="route"
-      mode="out-in">
-      <router-view />
-    </transition>
+    <router-view v-slot="{ Component }">
+      <transition name="route"
+        mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -37,7 +39,7 @@ body {
 }
 
 // New element starting position
-.route-enter {
+.route-enter-from {
   opacity: 0;
   transform: translateY(-30px);
 }
@@ -58,7 +60,7 @@ body {
 
 // Old element starting positon, new element ending position
 .route-enter-to,
-.route-leave {
+.route-leave-from {
   opacity: 1;
   transform: translateY(0);
 }

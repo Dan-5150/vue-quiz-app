@@ -60,7 +60,7 @@
       </p>
     </div>
     <!-- Multiple choice fields -->
-    <div v-for="(choice, index) in choices.value"
+    <div v-for="(choice, index) in choices.values"
       :key="choice.name"
       class="choice"
       :class="{ invalid: !choices.isValid || !choices.singleCorrect }">
@@ -98,144 +98,160 @@
   </form>
 </template>
 
-<script>
-export default {
-  name: 'QuestionForm',
+<script setup>
+import { ref, reactive, defineProps, defineEmits, onBeforeMount } from 'vue'
 
-  props: {
-    processType: {
-      type: String,
-      required: true,
-    },
-    editQuestion: {
-      type: Object,
-      required: false,
-      default() {
-        return {
-          question: null,
-          questionType: null,
-          choices: null,
-          answer: null,
-        }
-      },
+const props = defineProps({
+  processType: {
+    type: String,
+    required: true,
+  },
+  editQuestion: {
+    type: Object,
+    required: false,
+    default() {
+      return {
+        question: null,
+        questionType: null,
+        choices: null,
+        answer: null,
+      }
     },
   },
+})
 
-  emits: ['question-form'],
+const emit = defineEmits(['question-form'])
 
-  data() {
-    return {
-      question: {
-        value: '',
-        isValid: true,
-      },
-      questionType: {
-        value: '',
-        isValid: true,
-      },
-      textAnswer: {
-        value: '',
-        isValid: true,
-      },
-      choices: {
-        value: [],
-        isValid: true,
-        singleCorrect: true,
-      },
-      formIsValid: true,
+const question = reactive({
+  value: '',
+  isValid: true,
+})
+
+const questionType = reactive({
+  value: '',
+  isValid: true,
+})
+
+const textAnswer = reactive({
+  value: '',
+  isValid: true,
+})
+
+const choices = reactive({
+  values: [],
+  isValid: true,
+  singleCorrect: true,
+})
+
+const formIsValid = ref(true)
+
+/**
+ * Display correct question type fields when editing question
+ */
+onBeforeMount(() => {
+  if (props.processType === 'edit') {
+    question.value = props.editQuestion.question
+    if (props.editQuestion.questionType === 'multipleChoice') {
+      choices.values = [...props.editQuestion.choices]
+      questionType.value = 'multipleChoice'
+    } else {
+      textAnswer.value = props.editQuestion.answer
+      questionType.value = 'text'
     }
-  },
+  }
+})
 
-  created() {
-    if (this.processType === 'edit') {
-      this.question.value = this.editQuestion.question
-      if (this.editQuestion.questionType === 'multipleChoice') {
-        this.choices.value = [...this.editQuestion.choices]
-        this.questionType.value = 'multipleChoice'
-      } else {
-        this.textAnswer.value = this.editQuestion.answer
-        this.questionType.value = 'text'
-      }
+/**
+ * Validate form fields
+ */
+const validateForm = () => {
+  formIsValid.value = true
+  let correctAnswers = 0
+
+  // Empty question
+  if (question.value === '') {
+    question.isValid = false
+    formIsValid.value = false
+  }
+  // Question type (for new questions)
+  if (questionType.value === '' && props.processType === 'new') {
+    questionType.isValid = false
+    formIsValid.value = false
+  }
+  // Empty text based answer
+  if (textAnswer.value === '' && questionType.value === 'text') {
+    textAnswer.isValid = false
+    formIsValid.value = false
+  }
+  // No choices (for new questions)
+  if (choices.values.length === 0 && questionType.value === 'multipleChoice') {
+    choices.isValid = false
+    formIsValid.value = false
+  }
+  // No empty choices
+  for (const choice of choices.values) {
+    if (choice.correct) correctAnswers++
+    if (choice.answer === '') {
+      choices.isValid = false
+      formIsValid.value = false
     }
-  },
+  }
+  // Only 1 choice can be marked as correct
+  if (choices.values.length > 0 && correctAnswers !== 1) {
+    choices.singleCorrect = false
+    formIsValid.value = false
+  }
+}
 
-  methods: {
-    validateForm() {
-      this.formIsValid = true
-      let correctAnswers = 0
+const clearValidity = (input) => {
+  if ([input].value) {
+    [input].isValid = true
+  }
+}
 
-      // Empty question
-      if (this.question.value === '') {
-        this.question.isValid = false
-        this.formIsValid = false
-      }
-      // Question type (for new questions)
-      if (this.questionType.value === '' && this.processType === 'new') {
-        this.questionType.isValid = false
-        this.formIsValid = false
-      }
-      // Empty text based answer
-      if (this.textAnswer.value === '' && this.questionType.value === 'text') {
-        this.textAnswer.isValid = false
-        this.formIsValid = false
-      }
-      // No choices (for new questions)
-      if (this.choices.value.length === 0 && this.questionType.value === 'multipleChoice') {
-        this.choices.isValid = false
-        this.formIsValid = false
-      }
-      // No empty choices
-      for (const choice of this.choices.value) {
-        if (choice.correct) correctAnswers++
-        if (choice.answer === '') {
-          this.choices.isValid = false
-          this.formIsValid = false
-        }
-      }
-      // Only 1 choice can be marked as correct
-      if (this.choices.value.length > 0 && correctAnswers !== 1) {
-        this.choices.singleCorrect = false
-        this.formIsValid = false
-      }
-    },
-    clearValidity(input) {
-      if (this[input].value) {
-        this[input].isValid = true
-      }
-    },
-    submitForm() {
-      this.validateForm()
-      if (!this.formIsValid) return
+/**
+ * Submit question form and emit data back to parent
+ */
+const submitForm = () => {
+  validateForm()
+  if (!formIsValid.value) return
 
-      if (this.processType === 'new') {
-        const questionForm = {
-          question: this.question.value,
-          questionType: this.questionType.value,
-          textAnswer: this.textAnswer.value,
-          choices: this.choices.value,
-        }
-        this.$emit('question-form', questionForm)
-      } else if (this.processType === 'edit') {
-        const questionForm = {
-          question: this.question.value,
-          questionType: this.editQuestion.questionType,
-          textAnswer: this.textAnswer.value,
-          choices: this.choices.value,
-        }
-        this.$emit('question-form', questionForm)
-      }
-    },
-    addNewChoice() {
-      const choice = {
-        answer: '',
-        correct: false,
-      }
-      this.choices.value.push(choice)
-    },
-    removeChoice(index) {
-      this.choices.value.splice(index, 1)
-    },
-  },
+  if (props.processType === 'new') {
+    const questionForm = {
+      question: question.value,
+      questionType: questionType.value,
+      textAnswer: textAnswer.value,
+      choices: choices.values,
+    }
+    emit('question-form', questionForm)
+  } else if (props.processType === 'edit') {
+    const questionForm = {
+      question: question.value,
+      questionType: props.editQuestion.questionType,
+      textAnswer: textAnswer.value,
+      choices: choices.values,
+    }
+    emit('question-form', questionForm)
+  }
+}
+
+/**
+ * Add new choice to multiple choice
+ */
+const addNewChoice = () => {
+  const choice = {
+    answer: '',
+    correct: false,
+  }
+  choices.values.push(choice)
+}
+
+/**
+ * Remove multiple choice field
+ * @param {number} index Multiple choice index to remove
+ */
+const removeChoice = (index) => {
+  choices.values.splice(index, 1)
 }
 </script>
 

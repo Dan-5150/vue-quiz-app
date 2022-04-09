@@ -18,15 +18,13 @@
   </section>
 </template>
 
+<script setup>
+const appName = 'Quiz App'
+const description = 'Feel free to explore the app...'
+</script>
+
 <script>
 export default {
   name: 'HomePage',
-
-  data() {
-    return {
-      appName: 'Quiz App',
-      description: 'Feel free to explore the app...',
-    }
-  },
 }
 </script>

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -6,14 +6,10 @@ import BaseCard from '@/components/UI/BaseCard.vue'
 import BaseButton from '@/components/UI/BaseButton.vue'
 import BaseLoadingSpinner from '@/components/UI/BaseLoadingSpinner.vue'
 
-Vue.config.productionTip = false
+const app = createApp(App)
 
-Vue.component('BaseCard', BaseCard)
-Vue.component('BaseButton', BaseButton)
-Vue.component('BaseLoadingSpinner', BaseLoadingSpinner)
+app.component('BaseCard', BaseCard)
+app.component('BaseButton', BaseButton)
+app.component('BaseLoadingSpinner', BaseLoadingSpinner)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+app.use(router).use(store).mount('#app')

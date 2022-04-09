@@ -12,9 +12,9 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "uuid": "^8.3.2",
-    "vue": "^2.6.14",
-    "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.14",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -30,7 +30,7 @@
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-standard": "^6.1.0",
-    "@vue/vue2-jest": "^27.0.0-alpha.2",
+    "@vue/vue3-jest": "^27.0.0-alpha.4",
     "babel-jest": "^27.0.6",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.3",
@@ -38,7 +38,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^27.0.5",
-    "sass": "^1.32.7",
+    "sass": "^1.50.0",
     "sass-loader": "^12.0.0",
     "vue-template-compiler": "^2.6.14"
   }

@@ -79,7 +79,7 @@ module.exports = {
         allowTemplateLiterals: true, // Template literals are also OK
       },
     ],
-    'arrow-parens': ['warn', 'as-needed'], // Only use parentheses where required for arrow functions
+    'arrow-parens': ['warn', 'always'], // Only use parentheses where required for arrow functions
     indent: [ // Indenting by 2 spaces
       'warn',
       2,

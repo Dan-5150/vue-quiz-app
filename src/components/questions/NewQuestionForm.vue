@@ -5,46 +5,38 @@
   </base-card>
 </template>
 
-<script>
-import { mapMutations } from 'vuex'
+<script setup>
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
 import QuestionForm from './QuestionForm.vue'
 
-export default {
-  name: 'NewQuestionForm',
+const store = useStore()
+const router = useRouter()
 
-  components: {
-    'question-form': QuestionForm,
-  },
-
-  methods: {
-    ...mapMutations('questions', ['newQuestion']),
-    submitForm(formData) {
-      if (formData.questionType === 'text') {
-        const newQuestion = {
-          id: uuidv4(),
-          question: formData.question,
-          questionType: formData.questionType,
-          answer: formData.textAnswer,
-        }
-        console.log(newQuestion)
-        this.newQuestion(newQuestion)
-        // Using this.$store
-        // this.$store.commit('questions/newQuestion', newQuestion)
-      } else if (formData.questionType === 'multipleChoice') {
-        const newQuestion = {
-          id: uuidv4(),
-          question: formData.question,
-          questionType: formData.questionType,
-          choices: formData.choices,
-        }
-        console.log(newQuestion)
-        this.newQuestion(newQuestion)
-        // Using this.$store
-        // this.$store.commit('questions/newQuestion', newQuestion)
-      }
-      this.$router.replace('/questions')
-    },
-  },
+/**
+ * Submit form
+ * Add question to store
+ * @param {*} formData Question data
+ */
+const submitForm = (formData) => {
+  if (formData.questionType === 'text') {
+    const newQuestion = {
+      id: uuidv4(),
+      question: formData.question,
+      questionType: formData.questionType,
+      answer: formData.textAnswer,
+    }
+    store.commit('questions/newQuestion', newQuestion)
+  } else if (formData.questionType === 'multipleChoice') {
+    const newQuestion = {
+      id: uuidv4(),
+      question: formData.question,
+      questionType: formData.questionType,
+      choices: formData.choices,
+    }
+    store.commit('questions/newQuestion', newQuestion)
+  }
+  router.replace('/questions')
 }
 </script>
