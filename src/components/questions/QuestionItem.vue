@@ -33,15 +33,13 @@
   </transition-group>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue'
+import { Question } from '@/types/Question'
 
-defineProps({
-  questions: {
-    type: Array,
-    required: true,
-  },
-})
+defineProps<{
+  questions: Question[],
+}>()
 
 const emit = defineEmits(['delete-question'])
 
@@ -49,7 +47,7 @@ const emit = defineEmits(['delete-question'])
  * Return class names if answer is correct or incorrect
  * @param {boolean} correct Correct answer boolean
  */
-const correctAnswer = (correct) => {
+const correctAnswer = (correct: boolean): string => {
   if (correct) {
     return 'correct'
   } else {
@@ -61,7 +59,7 @@ const correctAnswer = (correct) => {
  * Delete question
  * @param {number} index Index of question to delete
  */
-const deleteQuestion = (index) => {
+const deleteQuestion = (index: number): void => {
   emit('delete-question', index)
 }
 </script>

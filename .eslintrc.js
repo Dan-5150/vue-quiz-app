@@ -14,10 +14,14 @@ module.exports = {
   },
 
   parserOptions: {
-    parser: '@babel/eslint-parser',
+    parser: '@typescript-eslint/parser',
   },
 
-  extends: ['plugin:vue/recommended', 'eslint:recommended'],
+  extends: [
+    'plugin:vue/recommended',
+    'eslint:recommended',
+    '@vue/typescript',
+  ],
 
   rules: {
     /**
@@ -27,7 +31,8 @@ module.exports = {
     'no-param-reassign': 'error', // Don't allow reassignment of function parameters
     'no-return-assign': 'error', // Don't allow assignment in a return statement
     'require-await': 'error', // If it's declared async, then it must have await
-    'no-shadow': 'warn', // Warn of variables that are redeclared in enclosed scope (SonarQube treats these as errors) - we will want to tighten this up later
+    'no-shadow': 'off', // Warn of variables that are redeclared in enclosed scope (SonarQube treats these as errors) - we will want to tighten this up later
+    '@typescript-eslint/no-shadow': ['error'], // Fix typescript enum bug
     'no-console': [ // Warn about console.log, console.trace etc.
       'off',
       { allow: ['info', 'warn', 'error'] },

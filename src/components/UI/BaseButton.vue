@@ -10,15 +10,17 @@
   </router-link>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'BaseButton',
 
   props: {
     classes: {
       type: String,
       required: false,
-      default: null,
+      default: '',
     },
     link: {
       type: Boolean,
@@ -31,7 +33,7 @@ export default {
       default: '',
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

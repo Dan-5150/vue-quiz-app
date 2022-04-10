@@ -17,12 +17,13 @@
   </div>
 </template>
 
-<script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+<script lang="ts" setup>
+import { ref, defineProps, defineEmits, PropType } from 'vue'
+import { Question } from '@/types/Question'
 
 defineProps({
   question: {
-    type: Object,
+    type: Object as PropType<Question>,
     required: true,
   },
 })
@@ -34,7 +35,7 @@ const answer = ref('')
 /**
  * Record answer given
  */
-const writtenSelect = () => {
+const writtenSelect = (): void => {
   emit('written-select', answer.value)
 }
 </script>

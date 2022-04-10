@@ -8,7 +8,7 @@
         <input id="name"
           v-model.trim="username.value"
           type="text"
-          @blur="clearValidity('username')">
+          @blur="clearValidity(username)">
       </div>
       <div class="form-control age-input">
         <label for="name">Age</label>
@@ -54,15 +54,17 @@
   </form>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { computed, onBeforeMount, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { FormValues } from '@/types/Form'
+import { User } from '@/types/QuizState'
 
 const store = useStore()
 const router = useRouter()
 
-const username = reactive({
+const username = reactive<FormValues>({
   value: '',
   isValid: true,
 })
@@ -86,28 +88,31 @@ const selectedSortOrder = ref('defined-order')
 
 const isLoading = ref(false)
 
-const user = computed(() => {
+/**
+ * Return user info from store
+ */
+const user = computed<User>(() => {
   return store.state.quiz.user
 })
 
 /**
  * Clear existing user info
  */
-onBeforeMount(() => {
+onBeforeMount((): void => {
   store.commit('quiz/clearUserInfo')
 })
 
 /**
  * Clear calculated age
  */
-const clearAge = () => {
+const clearAge = (): void => {
   store.commit('quiz/clearUserInfo')
 }
 
 /**
  * Validate form
  */
-const validateForm = () => {
+const validateForm = (): void => {
   if (username.value === '') {
     username.isValid = false
   }
@@ -116,7 +121,7 @@ const validateForm = () => {
 /**
  * Calculate user age based on name
  */
-const calculateUserAge = async () => {
+const calculateUserAge = async (): Promise<void> => {
   validateForm()
   if (!username.isValid) return
 
@@ -125,22 +130,26 @@ const calculateUserAge = async () => {
     await store.dispatch('quiz/fetchUserAge', {
       name: username.value,
     })
-  } catch (error) {
+  } catch (error: any) {
     console.log(error.message || 'Something went wrong!')
   }
   isLoading.value = false
 }
 
-const clearValidity = (input) => {
-  if ([input].value) {
-    [input].isValid = true
+/**
+ * Clear form validity on input blur
+ * @param input Form input
+ */
+const clearValidity = (input: FormValues): void => {
+  if (input.value) {
+    input.isValid = true
   }
 }
 
 /**
  * Submit user data and sort questions
  */
-const submitForm = () => {
+const submitForm = (): void => {
   validateForm()
   store.commit('quiz/updateSortOrder', selectedSortOrder.value)
   store.dispatch('quiz/sortQuestions', selectedSortOrder.value)

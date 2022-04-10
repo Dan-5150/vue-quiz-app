@@ -12,12 +12,14 @@
   </div>
 </template>
 
-<script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+<script lang="ts" setup>
+import { ref, defineProps, defineEmits, PropType } from 'vue'
+import { Question } from '@/types/Question'
+import { Choices } from '@/types/Choices'
 
 defineProps({
   question: {
-    type: Object,
+    type: Object as PropType<Question>,
     required: true,
   },
 })
@@ -30,7 +32,7 @@ const choiceSelected = ref(false)
  * Return class names if answer is correct or incorrect
  * @param {boolean} correct Correct answer boolean
  */
-const correctAnswer = (correct) => {
+const correctAnswer = (correct: boolean): string => {
   if (choiceSelected.value) {
     if (correct) {
       return 'correct'
@@ -38,13 +40,14 @@ const correctAnswer = (correct) => {
       return 'incorrect'
     }
   }
+  return ''
 }
 
 /**
  * Record selected answer against correct answer
- * @param {*} choice 
+ * @param {Choices} choice 
  */
-const choiceSelect = (choice) => {
+const choiceSelect = (choice: Choices): void => {
   // choiceSelected.value = true
   emit('choice-select', {
     correct: choice.correct,

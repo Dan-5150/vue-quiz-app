@@ -1,13 +1,18 @@
+import { Question } from '@/types/Question'
+import { QuizState, User } from '@/types/QuizState'
+import { RootState } from '@/types/RootState'
+import { SortedQuestion } from '@/types/SortedQuestion'
+
 export default {
   namespaced: true,
 
-  state() {
+  state(): QuizState {
     return {
       user: {
-        name: null,
+        name: '',
         age: null,
       },
-      sortOrder: null,
+      sortOrder: '',
       sortedQuestions: [],
     }
   },
@@ -15,12 +20,12 @@ export default {
   getters: {
     /**
      * Gets questions from questions store
-     * @param {object} _state 
+     * @param {QuizState} _state 
      * @param {object} _getters 
-     * @param {object} rootState 
-     * @returns 
+     * @param {RootState} rootState 
+     * @returns Questions from questions store
      */
-    questions(_state, _getters, rootState) {
+    questions(_state: QuizState, _getters: Question[], rootState: RootState): Question[] {
       return rootState.questions.questions
     },
   },
@@ -28,51 +33,52 @@ export default {
   mutations: {
     /**
      * Updates user info
-     * @param {object} state Quiz state
-     * @param {object} payload User info
+     * @param {QuizState} state Quiz state
+     * @param {User} payload User info
      */
-    updateUser(state, payload) {
+    updateUser(state: QuizState, payload: User): void {
       state.user = payload
     },
     /**
      * Updates sort order
-     * @param {object} state Quiz state
+     * @param {QuizState} state Quiz state
      * @param {string} payload Sort order
      */
-    updateSortOrder(state, payload) {
+    updateSortOrder(state: QuizState, payload: string): void {
       state.sortOrder = payload
     },
     /**
      * Clears user info
-     * @param {object} state Quiz state
+     * @param {QuizState} state Quiz state
      */
-    clearUserInfo(state) {
+    clearUserInfo(state: QuizState): void {
       state.user = {
-        name: null,
+        name: '',
         age: null,
       }
     },
     /**
      * Adds new quiz response
-     * @param {object} state 
+     * @param {QuizState} state 
      * @param {object} payload 
      */
-    addQuizResult(state, payload) {
+    addQuizResult(state: QuizState, payload: any): void {
+      console.log('addQuizResults', payload)
       state.sortedQuestions[payload.index].isCorrect = payload.isCorrect
       state.sortedQuestions[payload.index].response = payload.response
     },
     /**
      * Sort final quiz results by correct/incorrect responses
-     * @param {object} state 
+     * @param {QuizState} state 
      */
-    sortQuizResults(state) {
-      state.sortedQuestions.sort((a, b) => (a.isCorrect < b.isCorrect) && 1 || -1)
+    sortQuizResults(state: QuizState): void {
+      state.sortedQuestions.sort((a: SortedQuestion, b: SortedQuestion) => (a.isCorrect < b.isCorrect) && 1 || -1)
     },
     /**
      * Clears quiz results
-     * @param {object} state 
+     * @param {QuizState} state 
      */
-    clearQuizResults(state) {
+    clearQuizResults(state: QuizState): void {
       state.sortedQuestions = []
     },
   },
@@ -83,7 +89,7 @@ export default {
      * @param {*} context 
      * @param {string} payload Name to query
      */
-    async fetchUserAge(context, payload) {
+    async fetchUserAge(context: any, payload: { name: string }): Promise<void> {
       const response = await fetch(`https://api.agify.io/?name=${payload.name}`)
       const responseData = await response.json()
       if (!response.ok) {
@@ -98,20 +104,20 @@ export default {
     },
     /**
      * Sort questions array to specified sort type
-     * @param {object} state Question state
+     * @param {QuizState} state Question state
      * @param {string} payload Sort type
      */
-    sortQuestions({ state, getters }, payload) {
+    sortQuestions({ state, getters }: any, payload: string): void {
       // Clear questions
       state.sortedQuestions = []
       if (payload === 'defined-order') {
         state.sortedQuestions = [...getters.questions]
       } else if (payload === 'alphabetical-order') {
         state.sortedQuestions = [...getters.questions]
-        state.sortedQuestions.sort((a, b) => (a.question.localeCompare(b.question)))
+        state.sortedQuestions.sort((a: Question, b: Question) => (a.question.localeCompare(b.question)))
       } else if (payload === 'question-type-order') {
         state.sortedQuestions = [...getters.questions]
-        state.sortedQuestions.sort((a, b) => (a.questionType.localeCompare(b.questionType)))
+        state.sortedQuestions.sort((a: Question, b: Question) => (a.questionType.localeCompare(b.questionType)))
       }
       console.log('new-sort', state.sortedQuestions)
     },

@@ -14,11 +14,12 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import { mapMutations, mapState } from 'vuex'
 import QuestionItem from '../components/questions/QuestionItem.vue'
 
-export default {
+export default defineComponent({
   name: 'QuestionsPage',
 
   components: {
@@ -36,5 +37,5 @@ export default {
     //   this.$store.commit('questions/deleteQuestion', index)
     // },
   },
-}
+})
 </script>

@@ -31,11 +31,14 @@
   </section>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import UserInfo from '../components/quiz/UserInfo.vue'
+import { User } from '@/types/QuizState'
+import { SortOrder } from '@/enums/SortOrder'
+import { SortedQuestion } from '@/types/SortedQuestion'
 
 const route = useRoute()
 const store = useStore()
@@ -43,36 +46,36 @@ const store = useStore()
 /**
  * Return user
  */
-const user = computed(() => {
+const user = computed<User>(() => {
   return store.state.quiz.user
 })
 
 /**
  * Return sort order
  */
-const sortOrder = computed(() => {
+const sortOrder = computed<SortOrder>(() => {
   return store.state.quiz.sortOrder
 })
 
 /**
  * Return sorted questions
  */
-const sortedQuestions = computed(() => {
+const sortedQuestions = computed<SortedQuestion[]>(() => {
   return store.state.quiz.sortedQuestions
 })
 
 /**
  * Return if current route is quiz-setup
  */
-const currentRoute = computed(() => {
+const currentRoute = computed<boolean>(() => {
   return route.name === 'quiz-setup'
 })
 
 /**
  * Return quiz link with first question as ID
  */
-const startQuizLink = computed(() => {
-  if (sortedQuestions.value.ength === 0) return
+const startQuizLink = computed<string>(() => {
+  if (sortedQuestions.value.length === 0) return ''
   const firstQuestion = sortedQuestions.value[0]
   return `/quiz/${firstQuestion.id}`
 })

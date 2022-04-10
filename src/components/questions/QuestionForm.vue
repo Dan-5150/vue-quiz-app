@@ -7,7 +7,7 @@
       <input id="question"
         v-model.trim="question.value"
         type="text"
-        @blur="clearValidity('question')">
+        @blur="clearValidity(question)">
     </div>
     <!-- Question type (new question) -->
     <div v-if="processType === 'new'"
@@ -19,7 +19,7 @@
           type="radio"
           name="questionType"
           value="multipleChoice"
-          @blur="clearValidity('questionType')">
+          @blur="clearValidity(questionType)">
         <label for="multipleChoice">Multiple Choice</label>
       </div>
       <div>
@@ -28,22 +28,22 @@
           type="radio"
           name="questionType"
           value="text"
-          @blur="clearValidity('questionType')">
+          @blur="clearValidity(questionType)">
         <label for="textAnswer">Text Answer</label>
       </div>
     </div>
     <!-- Text answer -->
-    <div v-if="questionType.value === 'text' || editQuestion.questionType === 'text'"
+    <div v-if="questionType.value === QuestionType.text || editQuestion.questionType === QuestionType.text"
       class="form-control"
       :class="{ invalid: !textAnswer.isValid }">
       <label for="text-answer">Answer</label>
       <textarea id="text-answer"
         v-model.trim="textAnswer.value"
         rows="4"
-        @blur="clearValidity('textAnswer')" />
+        @blur="clearValidity(textAnswer)" />
     </div>
     <!-- Multiple choice controls -->
-    <div v-else-if="questionType.value === 'multipleChoice' || editQuestion.questionType === 'multipleChoice'"
+    <div v-else-if="questionType.value === QuestionType.multipleChoice || editQuestion.questionType === QuestionType.multipleChoice"
       class="form-control text-center">
       <base-button type="button"
         classes="small"
@@ -61,7 +61,7 @@
     </div>
     <!-- Multiple choice fields -->
     <div v-for="(choice, index) in choices.values"
-      :key="choice.name"
+      :key="index"
       class="choice"
       :class="{ invalid: !choices.isValid || !choices.singleCorrect }">
       <div class="form-control">
@@ -98,23 +98,27 @@
   </form>
 </template>
 
-<script setup>
-import { ref, reactive, defineProps, defineEmits, onBeforeMount } from 'vue'
+<script lang="ts" setup>
+import { ref, reactive, defineProps, defineEmits, onBeforeMount, PropType } from 'vue'
+import { ProcessType } from '@/enums/ProcessType'
+import { Question } from '@/types/Question'
+import { QuestionType } from '@/enums/QuestionType'
+import { FormValues, FormChoices } from '@/types/Form'
 
 const props = defineProps({
   processType: {
-    type: String,
+    type: String as PropType<ProcessType>,
     required: true,
   },
   editQuestion: {
-    type: Object,
+    type: Object as PropType<Question>,
     required: false,
     default() {
       return {
-        question: null,
+        question: '',
         questionType: null,
-        choices: null,
-        answer: null,
+        choices: [],
+        answer: '',
       }
     },
   },
@@ -122,22 +126,22 @@ const props = defineProps({
 
 const emit = defineEmits(['question-form'])
 
-const question = reactive({
+const question: FormValues = reactive({
   value: '',
   isValid: true,
 })
 
-const questionType = reactive({
+const questionType: FormValues = reactive({
   value: '',
   isValid: true,
 })
 
-const textAnswer = reactive({
+const textAnswer: FormValues = reactive({
   value: '',
   isValid: true,
 })
 
-const choices = reactive({
+const choices: FormChoices = reactive({
   values: [],
   isValid: true,
   singleCorrect: true,
@@ -148,15 +152,15 @@ const formIsValid = ref(true)
 /**
  * Display correct question type fields when editing question
  */
-onBeforeMount(() => {
-  if (props.processType === 'edit') {
+onBeforeMount((): void => {
+  if (props.processType === ProcessType.edit) {
     question.value = props.editQuestion.question
-    if (props.editQuestion.questionType === 'multipleChoice') {
-      choices.values = [...props.editQuestion.choices]
-      questionType.value = 'multipleChoice'
+    if (props.editQuestion.questionType === QuestionType.multipleChoice) {
+      choices.values = [...props.editQuestion.choices!]
+      questionType.value = QuestionType.multipleChoice
     } else {
-      textAnswer.value = props.editQuestion.answer
-      questionType.value = 'text'
+      textAnswer.value = props.editQuestion.answer!
+      questionType.value = QuestionType.text
     }
   }
 })
@@ -164,7 +168,7 @@ onBeforeMount(() => {
 /**
  * Validate form fields
  */
-const validateForm = () => {
+const validateForm = (): void => {
   formIsValid.value = true
   let correctAnswers = 0
 
@@ -174,17 +178,17 @@ const validateForm = () => {
     formIsValid.value = false
   }
   // Question type (for new questions)
-  if (questionType.value === '' && props.processType === 'new') {
+  if (questionType.value === '' && props.processType === ProcessType.new) {
     questionType.isValid = false
     formIsValid.value = false
   }
   // Empty text based answer
-  if (textAnswer.value === '' && questionType.value === 'text') {
+  if (textAnswer.value === '' && questionType.value === QuestionType.text) {
     textAnswer.isValid = false
     formIsValid.value = false
   }
   // No choices (for new questions)
-  if (choices.values.length === 0 && questionType.value === 'multipleChoice') {
+  if (choices.values.length === 0 && questionType.value === QuestionType.multipleChoice) {
     choices.isValid = false
     formIsValid.value = false
   }
@@ -203,32 +207,36 @@ const validateForm = () => {
   }
 }
 
-const clearValidity = (input) => {
-  if ([input].value) {
-    [input].isValid = true
+/**
+ * Clear form validity on input blur
+ * @param input Form input
+ */
+const clearValidity = (input: FormValues): void => {
+  if (input.value) {
+    input.isValid = true
   }
 }
 
 /**
  * Submit question form and emit data back to parent
  */
-const submitForm = () => {
+const submitForm = (): void => {
   validateForm()
   if (!formIsValid.value) return
 
-  if (props.processType === 'new') {
+  if (props.processType === ProcessType.new) {
     const questionForm = {
       question: question.value,
       questionType: questionType.value,
-      textAnswer: textAnswer.value,
+      answer: textAnswer.value,
       choices: choices.values,
     }
     emit('question-form', questionForm)
-  } else if (props.processType === 'edit') {
+  } else if (props.processType === ProcessType.edit) {
     const questionForm = {
       question: question.value,
       questionType: props.editQuestion.questionType,
-      textAnswer: textAnswer.value,
+      answer: textAnswer.value,
       choices: choices.values,
     }
     emit('question-form', questionForm)
@@ -238,7 +246,7 @@ const submitForm = () => {
 /**
  * Add new choice to multiple choice
  */
-const addNewChoice = () => {
+const addNewChoice = (): void => {
   const choice = {
     answer: '',
     correct: false,
@@ -250,7 +258,7 @@ const addNewChoice = () => {
  * Remove multiple choice field
  * @param {number} index Multiple choice index to remove
  */
-const removeChoice = (index) => {
+const removeChoice = (index: number): void => {
   choices.values.splice(index, 1)
 }
 </script>

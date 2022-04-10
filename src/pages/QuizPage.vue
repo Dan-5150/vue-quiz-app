@@ -14,32 +14,30 @@
   </section>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { computed, defineProps, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
-defineProps({
-  id: {
-    type: String,
-    required: true,
-  },
-})
+import { SortedQuestion } from '@/types/SortedQuestion'
 
 const store = useStore()
 const router = useRouter()
 
+defineProps<{
+  id: string,
+}>()
+
 /**
  * Get quiz sorted questions
  */
-const sortedQuestions = computed(() => {
+const sortedQuestions = computed<SortedQuestion[]>(() => {
   return store.state.quiz.sortedQuestions
 })
 
 /**
  * Go back to quiz setup page if no questions are in quiz
  */
-onBeforeMount(() => {
+onBeforeMount((): void => {
   if (sortedQuestions.value.length === 0) {
     router.replace('/quiz-setup')
   }

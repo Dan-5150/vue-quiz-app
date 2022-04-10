@@ -19,16 +19,18 @@
   </section>
 </template>
 
-<script setup>
-import { computed, defineProps } from 'vue'
+<script lang="ts" setup>
+import { computed, defineProps, PropType } from 'vue'
+import { SortOrder } from '@/enums/SortOrder'
+import { User } from '@/types/QuizState'
 
 const props = defineProps({
   user: {
-    type: Object,
+    type: Object as PropType<User>,
     required: true,
   },
   sortOrder: {
-    type: String,
+    type: String as PropType<SortOrder>,
     required: true,
   },
 })
@@ -36,7 +38,7 @@ const props = defineProps({
 /**
  * Display correct sort order from submitted form
  */
-const sortOrderText = computed(() => {
+const sortOrderText = computed<string>(() => {
   if (props.sortOrder === 'defined-order') {
     return 'Defined Order'
   } else if (props.sortOrder === 'alphabetical-order') {
@@ -44,7 +46,7 @@ const sortOrderText = computed(() => {
   } else if (props.sortOrder === 'question-type-order') {
     return 'Question Type Order'
   } else {
-    return null
+    return ''
   }
 })
 </script>

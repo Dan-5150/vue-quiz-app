@@ -16,7 +16,7 @@
           <h3>
             {{ index + 1 }}. {{ question.question }}
           </h3>
-          <span v-if="question.questionType === 'multipleChoice'">
+          <span v-if="question.questionType === QuestionType.multipleChoice">
             Your Response: {{ question.response }}
             <br>
             Answer: {{ correctChoice(question.choices) }}
@@ -36,10 +36,13 @@
   </section>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, onBeforeRouteLeave } from 'vue-router'
+import { SortedQuestion } from '@/types/SortedQuestion'
+import { Choices } from '@/types/Choices'
+import { QuestionType } from '@/enums/QuestionType'
 
 const router = useRouter()
 const store = useStore()
@@ -49,26 +52,26 @@ const score = ref(0)
 /**
  * Sort quiz results
  */
-const sortResults = () => store.commit('quiz/sortQuizResults')
+const sortResults = (): void => store.commit('quiz/sortQuizResults')
 
 /**
  * Get sorted questions from quiz
  */
-const sortedQuestions = computed(() => {
+const sortedQuestions = computed<SortedQuestion[]>(() => {
   return store.state.quiz.sortedQuestions
 })
 
 /**
  * Get number of questions in quiz
  */
-const numQuestions = computed(() => {
+const numQuestions = computed<number>(() => {
   return sortedQuestions.value.length
 })
 
 /**
  * Redirect away from page if no quiz questions exist or begin calculating score
  */
-onBeforeMount(() => {
+onBeforeMount((): void => {
   if (sortedQuestions.value.length === 0) {
     router.push('/')
   }
@@ -78,7 +81,7 @@ onBeforeMount(() => {
 /**
  * Loop through questions and calculate final score
  */
-const calcaulateScore = () => {
+const calcaulateScore = (): void => {
   for (const question of sortedQuestions.value) {
     if (question.isCorrect) score.value++
   }
@@ -86,10 +89,10 @@ const calcaulateScore = () => {
 
 /**
  * Return correct multiple choice answer
- * @param {*} choices Choices
+ * @param {Array<Choices>} choices Choices
  */
-const correctChoice = (choices) => {
-  for (const choice of choices) {
+const correctChoice = (choices: Choices[] | undefined): string | undefined => {
+  for (const choice of choices!) {
     if (choice.correct) {
       return choice.answer
     }
@@ -102,7 +105,7 @@ const correctChoice = (choices) => {
  * @param {*} _from 
  * @param {*} next 
  */
-onBeforeRouteLeave((_to, _from, next) => {
+onBeforeRouteLeave((_to, _from, next): void => {
   // Navigate away if no results found
   if (store.state.quiz.sortedQuestions.length === 0) {
     next()
