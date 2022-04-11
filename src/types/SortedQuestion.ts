@@ -1,13 +1,23 @@
 import { QuestionType } from '@/enums/QuestionType'
-import { Choices } from './Choices'
+import { Choice } from './Choice'
 
 export interface SortedQuestion {
   id: string,
   question: string,
   questionType: QuestionType | string,
-  choices?: Choices[],
+  choices?: Choice[],
   answer?: string,
   // Responses
   isCorrect: boolean,
   response: string,
+}
+
+export interface QuestionResponse {
+  isCorrect: boolean,
+  response: string,
+  index: number,
+}
+
+export interface SortedQuestions {
+  questions: SortedQuestion[],
 }

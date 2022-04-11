@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue'
 import { Question } from '@/types/Question'
 
 defineProps<{

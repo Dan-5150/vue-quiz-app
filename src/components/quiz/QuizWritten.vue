@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits, PropType } from 'vue'
+import { ref, PropType } from 'vue'
 import { Question } from '@/types/Question'
 
 defineProps({

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QuestionForm from '../components/questions/QuestionForm.vue'
@@ -40,7 +40,6 @@ onBeforeMount((): void => {
  * @param {Question} formData Edited question
  */
 const submitForm = (formData: Question): void => {
-  console.log('formData', formData)
   if (formData.questionType === QuestionType.multipleChoice) {
     const editedQuestion = {
       id: selectedQuestion.value?.id!,

@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, onBeforeMount } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { SortedQuestion } from '@/types/SortedQuestion'

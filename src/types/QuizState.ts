@@ -1,4 +1,4 @@
-import { SortOrder } from '@/enums/SortOrder';
+import { SortOrder } from '@/enums/SortOrder'
 import { SortedQuestion } from './SortedQuestion'
 
 export interface QuizState {

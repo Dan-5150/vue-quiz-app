@@ -5,6 +5,7 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    'vue/setup-compiler-macros': true,
   },
 
   globals: {
@@ -21,6 +22,7 @@ module.exports = {
     'plugin:vue/recommended',
     'eslint:recommended',
     '@vue/typescript',
+    '@vue/eslint-config-typescript',
   ],
 
   rules: {

@@ -1,4 +1,4 @@
-export interface Choices {
+export interface Choice {
   answer: string,
   correct: boolean,
 }

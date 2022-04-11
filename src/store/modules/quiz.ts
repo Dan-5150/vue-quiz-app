@@ -1,7 +1,8 @@
+import { Commit } from 'vuex'
 import { Question } from '@/types/Question'
 import { QuizState, User } from '@/types/QuizState'
 import { RootState } from '@/types/RootState'
-import { SortedQuestion } from '@/types/SortedQuestion'
+import { QuestionResponse, SortedQuestion, SortedQuestions } from '@/types/SortedQuestion'
 
 export default {
   namespaced: true,
@@ -21,7 +22,7 @@ export default {
     /**
      * Gets questions from questions store
      * @param {QuizState} _state 
-     * @param {object} _getters 
+     * @param {Question[]} _getters 
      * @param {RootState} rootState 
      * @returns Questions from questions store
      */
@@ -59,24 +60,23 @@ export default {
     },
     /**
      * Adds new quiz response
-     * @param {QuizState} state 
-     * @param {object} payload 
+     * @param {QuizState} state Quiz state
+     * @param {QuestionResponse} payload User response to question
      */
-    addQuizResult(state: QuizState, payload: any): void {
-      console.log('addQuizResults', payload)
+    addQuizResult(state: QuizState, payload: QuestionResponse): void {
       state.sortedQuestions[payload.index].isCorrect = payload.isCorrect
       state.sortedQuestions[payload.index].response = payload.response
     },
     /**
      * Sort final quiz results by correct/incorrect responses
-     * @param {QuizState} state 
+     * @param {QuizState} state Quiz state
      */
     sortQuizResults(state: QuizState): void {
       state.sortedQuestions.sort((a: SortedQuestion, b: SortedQuestion) => (a.isCorrect < b.isCorrect) && 1 || -1)
     },
     /**
      * Clears quiz results
-     * @param {QuizState} state 
+     * @param {QuizState} state Quiz state
      */
     clearQuizResults(state: QuizState): void {
       state.sortedQuestions = []
@@ -89,7 +89,7 @@ export default {
      * @param {*} context 
      * @param {string} payload Name to query
      */
-    async fetchUserAge(context: any, payload: { name: string }): Promise<void> {
+    async fetchUserAge({ commit }: { commit: Commit }, payload: { name: string }): Promise<void> {
       const response = await fetch(`https://api.agify.io/?name=${payload.name}`)
       const responseData = await response.json()
       if (!response.ok) {
@@ -100,14 +100,14 @@ export default {
         name: payload.name,
         age: responseData.age,
       }
-      context.commit('updateUser', newUser)
+      commit('updateUser', newUser)
     },
     /**
      * Sort questions array to specified sort type
      * @param {QuizState} state Question state
      * @param {string} payload Sort type
      */
-    sortQuestions({ state, getters }: any, payload: string): void {
+    sortQuestions({ state, getters }: { state: QuizState, getters: SortedQuestions }, payload: string): void {
       // Clear questions
       state.sortedQuestions = []
       if (payload === 'defined-order') {

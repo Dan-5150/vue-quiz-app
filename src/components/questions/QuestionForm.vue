@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, defineProps, defineEmits, onBeforeMount, PropType } from 'vue'
+import { ref, reactive, onBeforeMount, PropType } from 'vue'
 import { ProcessType } from '@/enums/ProcessType'
 import { Question } from '@/types/Question'
 import { QuestionType } from '@/enums/QuestionType'

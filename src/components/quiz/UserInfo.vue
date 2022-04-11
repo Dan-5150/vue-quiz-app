@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, PropType } from 'vue'
+import { computed, PropType } from 'vue'
 import { SortOrder } from '@/enums/SortOrder'
 import { User } from '@/types/QuizState'
 

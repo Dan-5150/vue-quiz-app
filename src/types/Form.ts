@@ -1,4 +1,4 @@
-import { Choices } from './Choices';
+import { Choice } from './Choice'
 
 export interface FormValues {
   value: string,
@@ -6,7 +6,7 @@ export interface FormValues {
 }
 
 export interface FormChoices {
-  values: Choices[],
+  values: Choice[],
   isValid: boolean,
   singleCorrect: boolean,
 }

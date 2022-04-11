@@ -42,13 +42,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref, computed, onBeforeMount } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import QuizMultipleChoice from './QuizMultipleChoice.vue'
 import QuizWritten from './QuizWritten.vue'
 import { SortedQuestion } from '@/types/SortedQuestion'
-import { Choices } from '@/types/Choices'
+import { Choice } from '@/types/Choice'
 import { QuestionType } from '@/enums/QuestionType'
 
 const store = useStore()
@@ -96,16 +96,15 @@ const isLastQuestion = computed<boolean>(() => {
 /**
  * Get current question from route ID
  */
-onBeforeMount(() => {
+onBeforeMount((): void => {
   selectedQuestion.value = sortedQuestions.value.find((question: SortedQuestion) => question.id === props.id)
-  console.log('current question', selectedQuestion.value)
 })
 
 /**
  * Check if choice selected is correct or not and save result
  * @param choice Choice selected
  */
-const choiceSelect = (choice: Choices): void => {
+const choiceSelect = (choice: Choice): void => {
   if (choice.correct) {
     correctAnswer.value = true
   } else {
@@ -145,87 +144,6 @@ const nextQuestion = (): void => {
 }
 </script>
 
-<script lang="ts">
-// import { mapMutations, mapState } from 'vuex'
-
-export default {
-//   components: {
-//     'quiz-multiple-choice': QuizMultipleChoice,
-//     'quiz-written': QuizWritten,
-//   },
-
-  //   props: {
-  //     id: {
-  //       type: String,
-  //       required: true,
-  //     },
-  //   },
-
-  //   data() {
-  //     return {
-  //       selectedQuestion: null,
-  //       correctAnswer: null,
-  //     }
-  //   },
-
-  //   computed: {
-  //     ...mapState('quiz', ['sortedQuestions']),
-  //     feedbackClass() {
-  //       if (this.correctAnswer) {
-  //         return 'correct'
-  //       } else if (!this.correctAnswer) {
-  //         return 'incorrect'
-  //       } else {
-  //         return ''
-  //       }
-  //     },
-  //     isLastQuestion() {
-  //       const currentQnIndex = this.sortedQuestions.findIndex((question) => question.id === this.id)
-  //       const lastQnIndex = this.sortedQuestions.length - 1
-  //       return lastQnIndex === currentQnIndex
-  //     },
-  //   },
-
-  //   created() {
-  //     this.selectedQuestion = this.sortedQuestions.find((question) => question.id === this.id)
-  //     console.log('current question', this.selectedQuestion)
-  //   },
-
-//   methods: {
-//     ...mapMutations('quiz', ['addQuizResult']),
-//     choiceSelect(choice) {
-//       if (choice.correct) {
-//         this.correctAnswer = true
-//       } else {
-//         this.correctAnswer = false
-//       }
-//       this.addQuizResult({
-//         isCorrect: this.correctAnswer,
-//         response: choice.answer,
-//         index: this.sortedQuestions.findIndex((question) => question.id === this.id),
-//       })
-//     },
-//     writtenSelect(answer) {
-//       if (answer.trim().toLowerCase() === this.selectedQuestion.answer.trim().toLowerCase()) {
-//         this.correctAnswer = true
-//       } else {
-//         this.correctAnswer = false
-//       }
-//       this.addQuizResult({
-//         isCorrect: this.correctAnswer,
-//         response: answer,
-//         index: this.sortedQuestions.findIndex((question) => question.id === this.id),
-//       })
-//     },
-//     nextQuestion() {
-//       const currentIndex = this.sortedQuestions.findIndex((question) => question.id === this.id)
-//       const newQuestion = this.sortedQuestions[currentIndex + 1]
-//       this.$router.replace(`/quiz/${newQuestion.id}`)
-//     },
-//   },
-}
-</script>
-
 <style lang="scss" scoped>
 .feedback {
   text-align: center;
@@ -241,7 +159,6 @@ export default {
 
 .fade-enter-from {
   opacity: 0;
-
   // transform: translateX(50px);
 }
 

@@ -4,7 +4,6 @@
     <ol>
       <li v-for="(choice, index) in question.choices"
         :key="choice.answer"
-        :class="correctAnswer(choice.correct)"
         @click="choiceSelect(choice)">
         {{ index + 1 }}. {{ choice.answer }}
       </li>
@@ -13,9 +12,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits, PropType } from 'vue'
+import { PropType } from 'vue'
 import { Question } from '@/types/Question'
-import { Choices } from '@/types/Choices'
+import { Choice } from '@/types/Choice'
 
 defineProps({
   question: {
@@ -26,29 +25,11 @@ defineProps({
 
 const emit = defineEmits(['choice-select'])
 
-const choiceSelected = ref(false)
-
-/**
- * Return class names if answer is correct or incorrect
- * @param {boolean} correct Correct answer boolean
- */
-const correctAnswer = (correct: boolean): string => {
-  if (choiceSelected.value) {
-    if (correct) {
-      return 'correct'
-    } else {
-      return 'incorrect'
-    }
-  }
-  return ''
-}
-
 /**
  * Record selected answer against correct answer
  * @param {Choices} choice 
  */
-const choiceSelect = (choice: Choices): void => {
-  // choiceSelected.value = true
+const choiceSelect = (choice: Choice): void => {
   emit('choice-select', {
     correct: choice.correct,
     answer: choice.answer,
@@ -72,14 +53,6 @@ ol {
     &:hover {
       background-color: var(--light-blue);
       border: 1px solid var(--blue);
-    }
-
-    &.incorrect {
-      background-color: rgb(248, 215, 215);
-    }
-
-    &.correct {
-      background-color: rgb(207, 248, 207);
     }
   }
 }

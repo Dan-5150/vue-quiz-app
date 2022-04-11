@@ -41,7 +41,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { SortedQuestion } from '@/types/SortedQuestion'
-import { Choices } from '@/types/Choices'
+import { Choice } from '@/types/Choice'
 import { QuestionType } from '@/enums/QuestionType'
 
 const router = useRouter()
@@ -89,9 +89,9 @@ const calcaulateScore = (): void => {
 
 /**
  * Return correct multiple choice answer
- * @param {Array<Choices>} choices Choices
+ * @param {Array<Choice>} choices Choices
  */
-const correctChoice = (choices: Choices[] | undefined): string | undefined => {
+const correctChoice = (choices: Choice[] | undefined): string | undefined => {
   for (const choice of choices!) {
     if (choice.correct) {
       return choice.answer
