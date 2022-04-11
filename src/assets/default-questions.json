@@ -1,124 +1,124 @@
 [
   {
     "id": "q1",
-    "question": "What is the capital of Australia?",
-    "questionType": "multipleChoice",
-    "choices": [
-      {
-        "answer": "Brisbane",
-        "correct": false
-      },
-      {
-        "answer": "Sydney",
-        "correct": false
-      },
-      {
-        "answer": "Canberra",
-        "correct": true
-      },
-      {
-        "answer": "Melbourne",
-        "correct": false
-      }
-    ]
+    "question": "What does WWW stand for in a web browser?",
+    "questionType": "text",
+    "answer": "World wide web"
   },
   {
     "id": "q2",
-    "question": "What does BBC stand for?",
+    "question": "What is the rarest M&M color?",
     "questionType": "text",
-    "answer": "British Broadcasting Corporation"
+    "answer": "Brown"
   },
   {
     "id": "q3",
-    "question": "What out of the following is NOT a continent?",
+    "question": "Which country invented ice cream?",
     "questionType": "multipleChoice",
     "choices": [
       {
-        "answer": "Australia",
-        "correct": false
-      },
-      {
-        "answer": "India",
+        "answer": "China",
         "correct": true
       },
       {
-        "answer": "Europe",
+        "answer": "Italy",
         "correct": false
       },
       {
-        "answer": "North America",
+        "answer": "France",
+        "correct": false
+      },
+      {
+        "answer": "United States",
         "correct": false
       }
     ]
   },
   {
     "id": "q4",
-    "question": "How long is an olympic swimming pool in metres?",
+    "question": "What country has the most natural lakes?",
     "questionType": "text",
-    "answer": "50"
+    "answer": "Canada"
   },
   {
     "id": "q5",
-    "question": "The capital of Sweden is?",
-    "questionType": "text",
-    "answer": "Stockholm"
-  },
-  {
-    "id": "q6",
-    "question": "What is the highest mountain of the following?",
+    "question": "What is the loudest animal on Earth?",
     "questionType": "multipleChoice",
     "choices": [
       {
-        "answer": "Mt Fuji",
+        "answer": "Lion",
         "correct": false
       },
       {
-        "answer": "Mt Blanc",
+        "answer": "Hyena",
         "correct": false
       },
       {
-        "answer": "Matterhorn",
+        "answer": "Elephant",
         "correct": false
       },
       {
-        "answer": "Mt Everest",
+        "answer": "Sperm Whale",
         "correct": true
       }
     ]
   },
   {
+    "id": "q6",
+    "question": "Which is the only edible food that never goes bad?",
+    "questionType": "text",
+    "answer": "Honey"
+  },
+  {
     "id": "q7",
-    "question": "Area 51 is located in which US state?",
+    "question": "Are you having fun?",
     "questionType": "multipleChoice",
     "choices": [
       {
-        "answer": "California",
-        "correct": false
-      },
-      {
-        "answer": "Nevada",
+        "answer": "Yes",
         "correct": true
       },
       {
-        "answer": "Texas",
-        "correct": false
-      },
-      {
-        "answer": "North Dakota",
+        "answer": "No",
         "correct": false
       }
     ]
   },
   {
     "id": "q8",
-    "question": "Havana is the capital of what country?",
-    "questionType": "text",
-    "answer": "Cuba"
+    "question": "The human body is made up of approximately how much water?",
+    "questionType": "multipleChoice",
+    "choices": [
+      {
+        "answer": "40%",
+        "correct": false
+      },
+      {
+        "answer": "50%",
+        "correct": false
+      },
+      {
+        "answer": "60%",
+        "correct": true
+      },
+      {
+        "answer": "70%",
+        "correct": false
+      },
+      {
+        "answer": "80%",
+        "correct": false
+      },
+      {
+        "answer": "90%",
+        "correct": false
+      }
+    ]
   },
   {
     "id": "q9",
-    "question": "How many colours are there in a rainbow?",
+    "question": "What is the most consumed manufactured drink in the world?",
     "questionType": "text",
-    "answer": "7"
+    "answer": "Tea"
   }
 ]

@@ -5,7 +5,8 @@
       <textarea id="writtenResponse"
         v-model="answer"
         name="writtenResponse"
-        rows="4" />
+        rows="4"
+        @keyup.enter="writtenSelect" />
     </div>
     <div class="form-control">
       <base-button classes="small"
