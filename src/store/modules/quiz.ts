@@ -3,6 +3,7 @@ import { Question } from '@/types/Question'
 import { QuizState, User } from '@/types/QuizState'
 import { RootState } from '@/types/RootState'
 import { QuestionResponse, SortedQuestion, SortedQuestions } from '@/types/SortedQuestion'
+import { SortOrder } from '@/enums/SortOrder'
 
 export default {
   namespaced: true,
@@ -13,7 +14,7 @@ export default {
         name: '',
         age: null,
       },
-      sortOrder: '',
+      sortOrder: SortOrder.definedOrder,
       sortedQuestions: [],
     }
   },
@@ -45,7 +46,7 @@ export default {
      * @param {QuizState} state Quiz state
      * @param {string} payload Sort order
      */
-    updateSortOrder(state: QuizState, payload: string): void {
+    updateSortOrder(state: QuizState, payload: SortOrder): void {
       state.sortOrder = payload
     },
     /**
@@ -110,12 +111,12 @@ export default {
     sortQuestions({ state, getters }: { state: QuizState, getters: SortedQuestions }, payload: string): void {
       // Clear questions
       state.sortedQuestions = []
-      if (payload === 'defined-order') {
+      if (payload === SortOrder.definedOrder) {
         state.sortedQuestions = [...getters.questions]
-      } else if (payload === 'alphabetical-order') {
+      } else if (payload === SortOrder.alphabeticalOrder) {
         state.sortedQuestions = [...getters.questions]
         state.sortedQuestions.sort((a: Question, b: Question) => (a.question.localeCompare(b.question)))
-      } else if (payload === 'question-type-order') {
+      } else if (payload === SortOrder.questionTypeOrder) {
         state.sortedQuestions = [...getters.questions]
         state.sortedQuestions.sort((a: Question, b: Question) => (a.questionType.localeCompare(b.questionType)))
       }

@@ -10,7 +10,7 @@
         @blur="clearValidity(question)">
     </div>
     <!-- Question type (new question) -->
-    <div v-if="processType === 'new'"
+    <div v-if="processType === ProcessType.new"
       class="form-control flex"
       :class="{ invalid: !questionType.isValid }">
       <div>
@@ -92,7 +92,7 @@
         classes="outline"
         :link="true"
         to="/questions">
-        {{ processType === 'edit' ? 'Back' : 'Close' }}
+        {{ processType === ProcessType.edit ? 'Back' : 'Close' }}
       </base-button>
     </div>
   </form>

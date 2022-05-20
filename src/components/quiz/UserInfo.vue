@@ -39,11 +39,11 @@ const props = defineProps({
  * Display correct sort order from submitted form
  */
 const sortOrderText = computed<string>(() => {
-  if (props.sortOrder === 'defined-order') {
+  if (props.sortOrder === SortOrder.definedOrder) {
     return 'Defined Order'
-  } else if (props.sortOrder === 'alphabetical-order') {
+  } else if (props.sortOrder === SortOrder.alphabeticalOrder) {
     return 'Alphabetical Order'
-  } else if (props.sortOrder === 'question-type-order') {
+  } else if (props.sortOrder === SortOrder.questionTypeOrder) {
     return 'Question Type Order'
   } else {
     return ''

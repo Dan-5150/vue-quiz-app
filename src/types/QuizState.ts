@@ -3,7 +3,7 @@ import { SortedQuestion } from './SortedQuestion'
 
 export interface QuizState {
   user: User,
-  sortOrder: SortOrder | string,
+  sortOrder: SortOrder,
   sortedQuestions: SortedQuestion[],
 }
 

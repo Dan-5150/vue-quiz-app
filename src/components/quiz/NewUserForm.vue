@@ -60,6 +60,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { FormValues } from '@/types/Form'
 import { User } from '@/types/QuizState'
+import { SortOrder } from '@/enums/SortOrder'
 
 const store = useStore()
 const router = useRouter()
@@ -72,19 +73,19 @@ const username = reactive<FormValues>({
 const sortOrder = ref([
   {
     name: 'Defined Order',
-    value: 'defined-order',
+    value: SortOrder.definedOrder,
   },
   {
     name: 'Alphabetical Order',
-    value: 'alphabetical-order',
+    value: SortOrder.alphabeticalOrder,
   },
   {
     name: 'Question Type Order',
-    value: 'question-type-order',
+    value: SortOrder.questionTypeOrder,
   },
 ])
 
-const selectedSortOrder = ref('defined-order')
+const selectedSortOrder = ref(SortOrder.definedOrder)
 
 const isLoading = ref(false)
 
