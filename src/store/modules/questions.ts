@@ -2,12 +2,14 @@ import defaultQuestions from '../../assets/default-questions.json'
 import { Question } from '@/types/Question'
 import { QuestionsState } from '../../types/QuestionsState'
 
+const fixedQuestions = defaultQuestions as Question[]
+
 export default {
   namespaced: true,
 
   state(): QuestionsState {
     return {
-      questions: defaultQuestions,
+      questions: fixedQuestions,
     }
   },
 

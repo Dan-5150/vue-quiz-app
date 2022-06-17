@@ -4,7 +4,7 @@ import { Choice } from './Choice'
 export interface SortedQuestion {
   id: string,
   question: string,
-  questionType: QuestionType | string,
+  questionType: QuestionType,
   choices?: Choice[],
   answer?: string,
   // Responses
