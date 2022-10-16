@@ -1,10 +1,11 @@
 # Quiz App
 
-[The Quiz App](https://dan-5150.github.io/vue-quiz-app/) is an app to create questions and take quizzes.
+[The Quiz App](https://dan-5150.github.io/vue-quiz-app/) is a Vue 3 app that can create questions and take quizzes.
 
 ### Built With
 
 - [Vue.js](https://vuejs.org/)
+- [Typescript](https://www.typescriptlang.org/)
 
 ## Project setup
 
