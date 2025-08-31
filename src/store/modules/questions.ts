@@ -38,7 +38,9 @@ export default {
      * @param {Question} payload Edited question object
      */
     editQuestion(state: QuestionsState, payload: Question): void {
-      const questionIndex = state.questions.findIndex((question: Question) => question.id === payload.id)
+      const questionIndex = state.questions.findIndex(
+        (question: Question) => question.id === payload.id,
+      )
       state.questions.splice(questionIndex, 1, payload)
     },
   },

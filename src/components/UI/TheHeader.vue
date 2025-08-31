@@ -2,20 +2,14 @@
   <header>
     <nav>
       <h1>
-        <router-link to="/">
-          Quiz App
-        </router-link>
+        <router-link to="/"> Quiz App </router-link>
       </h1>
       <ul>
         <li>
-          <router-link to="/questions">
-            Edit Questions
-          </router-link>
+          <router-link to="/questions"> Edit Questions </router-link>
         </li>
         <li>
-          <router-link to="/quiz-setup">
-            Take the Quiz
-          </router-link>
+          <router-link to="/quiz-setup"> Take the Quiz </router-link>
         </li>
       </ul>
     </nav>

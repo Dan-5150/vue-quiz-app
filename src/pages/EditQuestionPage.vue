@@ -2,9 +2,11 @@
   <section>
     <base-card classes="card-sm text-left">
       <h1>Edit Question</h1>
-      <question-form :process-type="ProcessType.edit"
+      <question-form
+        :process-type="ProcessType.edit"
         :edit-question="selectedQuestion"
-        @question-form="submitForm" />
+        @question-form="submitForm"
+      />
     </base-card>
   </section>
 </template>
@@ -22,7 +24,7 @@ const store = useStore()
 const router = useRouter()
 
 const props = defineProps<{
-  id: string,
+  id: string
 }>()
 
 const selectedQuestion = ref<Question>()
@@ -32,7 +34,9 @@ const selectedQuestion = ref<Question>()
  */
 onBeforeMount((): void => {
   const questions = store.state.questions.questions
-  selectedQuestion.value = questions.find((question: Question) => question.id === props.id)
+  selectedQuestion.value = questions.find(
+    (question: Question) => question.id === props.id,
+  )
 })
 
 /**

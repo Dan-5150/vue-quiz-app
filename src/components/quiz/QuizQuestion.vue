@@ -1,40 +1,56 @@
 <template>
   <section>
     <base-card classes="card-sm text-left">
-      <transition name="fade"
-        mode="out-in">
+      <transition
+        name="fade"
+        mode="out-in"
+      >
         <template v-if="correctAnswer === null">
-          <quiz-multiple-choice v-if="selectedQuestion?.questionType === QuestionType.multipleChoice"
+          <quiz-multiple-choice
+            v-if="
+              selectedQuestion?.questionType === QuestionType.multipleChoice
+            "
             :question="selectedQuestion"
-            @choice-select="choiceSelect" />
-          <quiz-written v-else
+            @choice-select="choiceSelect"
+          />
+          <quiz-written
+            v-else
             :question="selectedQuestion!"
-            @written-select="writtenSelect" />
+            @written-select="writtenSelect"
+          />
         </template>
-        <div v-else-if="correctAnswer"
+        <div
+          v-else-if="correctAnswer"
           class="feedback"
-          :class="feedbackClass">
+          :class="feedbackClass"
+        >
           <h2>Correct!</h2>
           <p>Well done!</p>
         </div>
-        <div v-else-if="!correctAnswer"
+        <div
+          v-else-if="!correctAnswer"
           class="feedback"
-          :class="feedbackClass">
+          :class="feedbackClass"
+        >
           <h2>Incorrect!</h2>
           <p>Better luck next time...</p>
         </div>
       </transition>
     </base-card>
-    <div v-if="correctAnswer !== null && !isLastQuestion"
-      class="form-control">
-      <base-button @click.native="nextQuestion">
-        Next Question
-      </base-button>
+    <div
+      v-if="correctAnswer !== null && !isLastQuestion"
+      class="form-control"
+    >
+      <base-button @click.native="nextQuestion"> Next Question </base-button>
     </div>
-    <div v-else-if="correctAnswer !== null && isLastQuestion"
-      class="form-control">
-      <base-button :link="true"
-        to="/quiz-finish">
+    <div
+      v-else-if="correctAnswer !== null && isLastQuestion"
+      class="form-control"
+    >
+      <base-button
+        :link="true"
+        to="/quiz-finish"
+      >
         Finish Quiz
       </base-button>
     </div>
@@ -88,7 +104,9 @@ const feedbackClass = computed<string>(() => {
  * Determine if question is last question in quiz
  */
 const isLastQuestion = computed<boolean>(() => {
-  const currentQnIndex = sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id)
+  const currentQnIndex = sortedQuestions.value.findIndex(
+    (question: SortedQuestion) => question.id === props.id,
+  )
   const lastQnIndex = sortedQuestions.value.length - 1
   return lastQnIndex === currentQnIndex
 })
@@ -97,7 +115,9 @@ const isLastQuestion = computed<boolean>(() => {
  * Get current question from route ID
  */
 onBeforeMount((): void => {
-  selectedQuestion.value = sortedQuestions.value.find((question: SortedQuestion) => question.id === props.id)
+  selectedQuestion.value = sortedQuestions.value.find(
+    (question: SortedQuestion) => question.id === props.id,
+  )
 })
 
 /**
@@ -113,7 +133,9 @@ const choiceSelect = (choice: Choice): void => {
   store.commit('quiz/addQuizResult', {
     isCorrect: correctAnswer.value,
     response: choice.answer,
-    index: sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id),
+    index: sortedQuestions.value.findIndex(
+      (question: SortedQuestion) => question.id === props.id,
+    ),
   })
 }
 
@@ -122,7 +144,10 @@ const choiceSelect = (choice: Choice): void => {
  * @param answer Users answer
  */
 const writtenSelect = (answer: string): void => {
-  if (answer.trim().toLowerCase() === selectedQuestion.value?.answer?.trim().toLowerCase()) {
+  if (
+    answer.trim().toLowerCase() ===
+    selectedQuestion.value?.answer?.trim().toLowerCase()
+  ) {
     correctAnswer.value = true
   } else {
     correctAnswer.value = false
@@ -130,7 +155,9 @@ const writtenSelect = (answer: string): void => {
   store.commit('quiz/addQuizResult', {
     isCorrect: correctAnswer.value,
     response: answer,
-    index: sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id),
+    index: sortedQuestions.value.findIndex(
+      (question: SortedQuestion) => question.id === props.id,
+    ),
   })
 }
 
@@ -138,7 +165,9 @@ const writtenSelect = (answer: string): void => {
  * Get ID for next question for route link
  */
 const nextQuestion = (): void => {
-  const currentIndex = sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id)
+  const currentIndex = sortedQuestions.value.findIndex(
+    (question: SortedQuestion) => question.id === props.id,
+  )
   const newQuestion = sortedQuestions.value[currentIndex + 1]
   router.replace(`/quiz/${newQuestion.id}`)
 }

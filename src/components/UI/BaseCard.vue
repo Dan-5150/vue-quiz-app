@@ -1,6 +1,8 @@
 <template>
-  <div class="card"
-    :class="classes">
+  <div
+    class="card"
+    :class="classes"
+  >
     <slot />
   </div>
 </template>

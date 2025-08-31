@@ -1,97 +1,133 @@
 <template>
   <form @submit.prevent="submitForm">
     <!-- Question -->
-    <div class="form-control"
-      :class="{ invalid: !question.isValid }">
+    <div
+      class="form-control"
+      :class="{ invalid: !question.isValid }"
+    >
       <label for="question">Question</label>
-      <input id="question"
+      <input
+        id="question"
         v-model.trim="question.value"
         type="text"
-        @blur="clearValidity(question)">
+        @blur="clearValidity(question)"
+      />
     </div>
     <!-- Question type (new question) -->
-    <div v-if="processType === ProcessType.new"
+    <div
+      v-if="processType === ProcessType.new"
       class="form-control flex"
-      :class="{ invalid: !questionType.isValid }">
+      :class="{ invalid: !questionType.isValid }"
+    >
       <div>
-        <input id="multipleChoice"
+        <input
+          id="multipleChoice"
           v-model.trim="questionType.value"
           type="radio"
           name="questionType"
           value="multipleChoice"
-          @blur="clearValidity(questionType)">
+          @blur="clearValidity(questionType)"
+        />
         <label for="multipleChoice">Multiple Choice</label>
       </div>
       <div>
-        <input id="textAnswer"
+        <input
+          id="textAnswer"
           v-model.trim="questionType.value"
           type="radio"
           name="questionType"
           value="text"
-          @blur="clearValidity(questionType)">
+          @blur="clearValidity(questionType)"
+        />
         <label for="textAnswer">Text Answer</label>
       </div>
     </div>
     <!-- Text answer -->
-    <div v-if="questionType.value === QuestionType.text || editQuestion.questionType === QuestionType.text"
+    <div
+      v-if="
+        questionType.value === QuestionType.text ||
+        editQuestion.questionType === QuestionType.text
+      "
       class="form-control"
-      :class="{ invalid: !textAnswer.isValid }">
+      :class="{ invalid: !textAnswer.isValid }"
+    >
       <label for="text-answer">Answer</label>
-      <textarea id="text-answer"
+      <textarea
+        id="text-answer"
         v-model.trim="textAnswer.value"
         rows="4"
-        @blur="clearValidity(textAnswer)" />
+        @blur="clearValidity(textAnswer)"
+      />
     </div>
     <!-- Multiple choice controls -->
-    <div v-else-if="questionType.value === QuestionType.multipleChoice || editQuestion.questionType === QuestionType.multipleChoice"
-      class="form-control text-center">
-      <base-button type="button"
+    <div
+      v-else-if="
+        questionType.value === QuestionType.multipleChoice ||
+        editQuestion.questionType === QuestionType.multipleChoice
+      "
+      class="form-control text-center"
+    >
+      <base-button
+        type="button"
         classes="small"
-        @click.native="addNewChoice">
+        @click.native="addNewChoice"
+      >
         Add New Choice
       </base-button>
-      <p v-if="!choices.isValid"
-        class="invalid">
+      <p
+        v-if="!choices.isValid"
+        class="invalid"
+      >
         One or more of your choices are invalid.
       </p>
-      <p v-if="!choices.singleCorrect"
-        class="invalid">
+      <p
+        v-if="!choices.singleCorrect"
+        class="invalid"
+      >
         Your question must have only 1 correct answer.
       </p>
     </div>
     <!-- Multiple choice fields -->
-    <div v-for="(choice, index) in choices.values"
+    <div
+      v-for="(choice, index) in choices.values"
       :key="index"
       class="choice"
-      :class="{ invalid: !choices.isValid || !choices.singleCorrect }">
+      :class="{ invalid: !choices.isValid || !choices.singleCorrect }"
+    >
       <div class="form-control">
         <label :for="`question-${index}`">{{ index + 1 }}. Answer</label>
-        <input :id="`question-${index}`"
+        <input
+          :id="`question-${index}`"
           v-model="choice.answer"
-          type="text">
-        <base-button type="button"
+          type="text"
+        />
+        <base-button
+          type="button"
           classes="small red"
-          @click.native="removeChoice(index)">
+          @click.native="removeChoice(index)"
+        >
           Remove
         </base-button>
       </div>
       <div class="form-control">
-        <input :id="`correctAnswer-${index}`"
+        <input
+          :id="`correctAnswer-${index}`"
           v-model="choice.correct"
           type="checkbox"
-          value="correctAnswer">
+          value="correctAnswer"
+        />
         <label :for="`correctAnswer-${index}`">Correct Answer?</label>
       </div>
     </div>
     <!-- Buttons -->
     <div class="form-control">
-      <base-button type="submit">
-        Submit
-      </base-button>
-      <base-button type="button"
+      <base-button type="submit"> Submit </base-button>
+      <base-button
+        type="button"
         classes="outline"
         :link="true"
-        to="/questions">
+        to="/questions"
+      >
         {{ processType === ProcessType.edit ? 'Back' : 'Close' }}
       </base-button>
     </div>
@@ -188,7 +224,10 @@ const validateForm = (): void => {
     formIsValid.value = false
   }
   // No choices (for new questions)
-  if (choices.values.length === 0 && questionType.value === QuestionType.multipleChoice) {
+  if (
+    choices.values.length === 0 &&
+    questionType.value === QuestionType.multipleChoice
+  ) {
     choices.isValid = false
     formIsValid.value = false
   }

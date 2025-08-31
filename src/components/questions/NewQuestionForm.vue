@@ -1,7 +1,9 @@
 <template>
   <base-card classes="card-sm text-left">
-    <question-form :process-type="ProcessType.new"
-      @question-form="submitForm" />
+    <question-form
+      :process-type="ProcessType.new"
+      @question-form="submitForm"
+    />
   </base-card>
 </template>
 

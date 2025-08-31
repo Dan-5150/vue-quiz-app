@@ -1,27 +1,35 @@
 <template>
   <transition-group name="question">
-    <base-card v-for="(question, index) in questions"
+    <base-card
+      v-for="(question, index) in questions"
       :key="question.id"
-      classes="card-sm text-left">
+      classes="card-sm text-left"
+    >
       <div>
         <div class="header">
           <h3>{{ index + 1 }}. {{ question.question }}</h3>
           <div>
-            <base-button classes="small"
+            <base-button
+              classes="small"
               :link="true"
-              :to="`/questions/${question.id}/edit`">
+              :to="`/questions/${question.id}/edit`"
+            >
               Edit
             </base-button>
-            <base-button classes="small red"
-              @click.native="deleteQuestion(index)">
+            <base-button
+              classes="small red"
+              @click.native="deleteQuestion(index)"
+            >
               Delete
             </base-button>
           </div>
         </div>
         <ul v-if="question.choices">
-          <li v-for="(choice, idx) in question.choices"
+          <li
+            v-for="(choice, idx) in question.choices"
             :key="choice.answer"
-            :class="correctAnswer(choice.correct)">
+            :class="correctAnswer(choice.correct)"
+          >
             {{ idx + 1 }}. {{ choice.answer }}
           </li>
         </ul>
@@ -37,7 +45,7 @@
 import { Question } from '@/types/Question'
 
 defineProps<{
-  questions: Question[],
+  questions: Question[]
 }>()
 
 const emit = defineEmits(['delete-question'])

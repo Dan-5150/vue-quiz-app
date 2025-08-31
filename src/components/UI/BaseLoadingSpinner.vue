@@ -16,7 +16,7 @@ export default {
   height: 80px;
 
   &::after {
-    content: " ";
+    content: ' ';
     display: block;
     border-radius: 50%;
     width: 0;

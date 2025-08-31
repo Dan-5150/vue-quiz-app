@@ -2,53 +2,65 @@
   <form @submit.prevent="submitForm">
     <base-card classes="card-sm text-left">
       <h2>User Info</h2>
-      <div class="form-control"
-        :class="{ invalid: !username.isValid }">
+      <div
+        class="form-control"
+        :class="{ invalid: !username.isValid }"
+      >
         <label for="name">Name</label>
-        <input id="name"
+        <input
+          id="name"
           v-model.trim="username.value"
           type="text"
-          @blur="clearValidity(username)">
+          @blur="clearValidity(username)"
+        />
       </div>
       <div class="form-control age-input">
         <label for="name">Age</label>
         <base-loading-spinner v-if="isLoading" />
         <template v-else>
           <template v-if="user.age">
-            <input id="name"
+            <input
+              id="name"
               :value="user.age"
               type="text"
-              disabled>
-            <base-button type="button"
+              disabled
+            />
+            <base-button
+              type="button"
               classes="small red"
-              @click.native="clearAge">
+              @click.native="clearAge"
+            >
               Clear
             </base-button>
           </template>
-          <base-button v-else
+          <base-button
+            v-else
             type="button"
             classes="small"
-            @click.native="calculateUserAge">
+            @click.native="calculateUserAge"
+          >
             Get Age
           </base-button>
         </template>
       </div>
       <div class="form-control">
         <label for="sort-order">Question Sort Order</label>
-        <select id="sort-order"
+        <select
+          id="sort-order"
           v-model="selectedSortOrder"
-          name="sort-order">
-          <option v-for="order in sortOrder"
+          name="sort-order"
+        >
+          <option
+            v-for="order in sortOrder"
             :key="order.value"
-            :value="order.value">
+            :value="order.value"
+          >
             {{ order.name }}
           </option>
         </select>
       </div>
       <div class="form-control">
-        <base-button type="submit">
-          Submit
-        </base-button>
+        <base-button type="submit"> Submit </base-button>
       </div>
     </base-card>
   </form>

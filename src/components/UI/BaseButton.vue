@@ -1,11 +1,15 @@
 <template>
-  <button v-if="!link"
-    :class="classes">
+  <button
+    v-if="!link"
+    :class="classes"
+  >
     <slot />
   </button>
-  <router-link v-else
+  <router-link
+    v-else
     :class="classes"
-    :to="to">
+    :to="to"
+  >
     <slot />
   </router-link>
 </template>

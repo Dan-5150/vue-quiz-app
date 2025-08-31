@@ -2,7 +2,11 @@ import { Commit } from 'vuex'
 import { Question } from '@/types/Question'
 import { QuizState, User } from '@/types/QuizState'
 import { RootState } from '@/types/RootState'
-import { QuestionResponse, SortedQuestion, SortedQuestions } from '@/types/SortedQuestion'
+import {
+  QuestionResponse,
+  SortedQuestion,
+  SortedQuestions,
+} from '@/types/SortedQuestion'
 import { SortOrder } from '@/enums/SortOrder'
 
 export default {
@@ -22,12 +26,16 @@ export default {
   getters: {
     /**
      * Gets questions from questions store
-     * @param {QuizState} _state 
-     * @param {Question[]} _getters 
-     * @param {RootState} rootState 
+     * @param {QuizState} _state
+     * @param {Question[]} _getters
+     * @param {RootState} rootState
      * @returns Questions from questions store
      */
-    questions(_state: QuizState, _getters: Question[], rootState: RootState): Question[] {
+    questions(
+      _state: QuizState,
+      _getters: Question[],
+      rootState: RootState,
+    ): Question[] {
       return rootState.questions.questions
     },
   },
@@ -73,7 +81,10 @@ export default {
      * @param {QuizState} state Quiz state
      */
     sortQuizResults(state: QuizState): void {
-      state.sortedQuestions.sort((a: SortedQuestion, b: SortedQuestion) => (a.isCorrect < b.isCorrect) && 1 || -1)
+      state.sortedQuestions.sort(
+        (a: SortedQuestion, b: SortedQuestion) =>
+          (a.isCorrect < b.isCorrect && 1) || -1,
+      )
     },
     /**
      * Clears quiz results
@@ -87,14 +98,18 @@ export default {
   actions: {
     /**
      * Fetch user age from agify.io API
-     * @param {*} context 
+     * @param {*} context
      * @param {string} payload Name to query
      */
-    async fetchUserAge({ commit }: { commit: Commit }, payload: { name: string }): Promise<void> {
+    async fetchUserAge(
+      { commit }: { commit: Commit },
+      payload: { name: string },
+    ): Promise<void> {
       const response = await fetch(`https://api.agify.io/?name=${payload.name}`)
       const responseData = await response.json()
       if (!response.ok) {
-        const error = new Error(responseData.message) || 'Failed to fetch requests.'
+        const error =
+          new Error(responseData.message) || 'Failed to fetch requests.'
         throw error
       }
       const newUser = {
@@ -108,17 +123,24 @@ export default {
      * @param {QuizState} state Question state
      * @param {string} payload Sort type
      */
-    sortQuestions({ state, getters }: { state: QuizState, getters: SortedQuestions }, payload: string): void {
+    sortQuestions(
+      { state, getters }: { state: QuizState; getters: SortedQuestions },
+      payload: string,
+    ): void {
       // Clear questions
       state.sortedQuestions = []
       if (payload === SortOrder.definedOrder) {
         state.sortedQuestions = [...getters.questions]
       } else if (payload === SortOrder.alphabeticalOrder) {
         state.sortedQuestions = [...getters.questions]
-        state.sortedQuestions.sort((a: Question, b: Question) => (a.question.localeCompare(b.question)))
+        state.sortedQuestions.sort((a: Question, b: Question) =>
+          a.question.localeCompare(b.question),
+        )
       } else if (payload === SortOrder.questionTypeOrder) {
         state.sortedQuestions = [...getters.questions]
-        state.sortedQuestions.sort((a: Question, b: Question) => (a.questionType.localeCompare(b.questionType)))
+        state.sortedQuestions.sort((a: Question, b: Question) =>
+          a.questionType.localeCompare(b.questionType),
+        )
       }
       console.log('new-sort', state.sortedQuestions)
     },

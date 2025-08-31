@@ -10,26 +10,28 @@
         Sort by Correct/Incorrect
       </base-button>
       <ul>
-        <li v-for="(question, index) in sortedQuestions"
+        <li
+          v-for="(question, index) in sortedQuestions"
           :key="question.id"
-          :class="question.isCorrect ? 'correct' : 'incorrect'">
-          <h3>
-            {{ index + 1 }}. {{ question.question }}
-          </h3>
+          :class="question.isCorrect ? 'correct' : 'incorrect'"
+        >
+          <h3>{{ index + 1 }}. {{ question.question }}</h3>
           <span v-if="question.questionType === QuestionType.multipleChoice">
             Your Response: {{ question.response }}
-            <br>
+            <br />
             Answer: {{ correctChoice(question.choices) }}
           </span>
           <span v-else>
             Your Response: {{ question.response }}
-            <br>
+            <br />
             Answer: {{ question.answer }}
           </span>
         </li>
       </ul>
-      <base-button :link="true"
-        to="/">
+      <base-button
+        :link="true"
+        to="/"
+      >
         Back Home
       </base-button>
     </base-card>
@@ -101,9 +103,9 @@ const correctChoice = (choices: Choice[] | undefined): string | undefined => {
 
 /**
  * Display warning alert if routing away from page
- * @param {*} _to 
- * @param {*} _from 
- * @param {*} next 
+ * @param {*} _to
+ * @param {*} _from
+ * @param {*} next
  */
 onBeforeRouteLeave((_to, _from, next): void => {
   // Navigate away if no results found
@@ -112,7 +114,9 @@ onBeforeRouteLeave((_to, _from, next): void => {
     return
   }
   // Display confirmation message
-  const confirm = window.confirm('Are you sure you want to leave? All your quiz results will be cleared.')
+  const confirm = window.confirm(
+    'Are you sure you want to leave? All your quiz results will be cleared.',
+  )
   if (confirm) {
     // this.clearQuizResults()
     store.commit('quiz/clearQuizResults')

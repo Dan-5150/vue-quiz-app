@@ -3,13 +3,17 @@
     <base-card>
       <h1>Edit Questions</h1>
       <p>View, add, update or delete questions here.</p>
-      <base-button :link="true"
-        to="/questions/new">
+      <base-button
+        :link="true"
+        to="/questions/new"
+      >
         New Question
       </base-button>
       <router-view />
-      <question-item :questions="questions"
-        @delete-question="deleteQuestion" />
+      <question-item
+        :questions="questions"
+        @delete-question="deleteQuestion"
+      />
     </base-card>
   </section>
 </template>

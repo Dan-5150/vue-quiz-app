@@ -2,9 +2,11 @@
   <div class="form-control">
     <h3>{{ question.question }}</h3>
     <ol>
-      <li v-for="(choice, index) in question.choices"
+      <li
+        v-for="(choice, index) in question.choices"
         :key="choice.answer"
-        @click="choiceSelect(choice)">
+        @click="choiceSelect(choice)"
+      >
         {{ index + 1 }}. {{ choice.answer }}
       </li>
     </ol>
@@ -27,7 +29,7 @@ const emit = defineEmits(['choice-select'])
 
 /**
  * Record selected answer against correct answer
- * @param {Choices} choice 
+ * @param {Choices} choice
  */
 const choiceSelect = (choice: Choice): void => {
   emit('choice-select', {

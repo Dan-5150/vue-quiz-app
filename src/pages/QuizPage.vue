@@ -4,10 +4,14 @@
       <h1>The Quiz</h1>
       <p>Try not to lose...</p>
       <router-view v-slot="{ Component, route }">
-        <transition name="quiz-route"
-          mode="out-in">
-          <component :is="Component"
-            :key="route.path" />
+        <transition
+          name="quiz-route"
+          mode="out-in"
+        >
+          <component
+            :is="Component"
+            :key="route.path"
+          />
         </transition>
       </router-view>
     </base-card>
@@ -24,7 +28,7 @@ const store = useStore()
 const router = useRouter()
 
 defineProps<{
-  id: string,
+  id: string
 }>()
 
 /**
