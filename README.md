@@ -5,32 +5,27 @@
 ### Built With
 
 - [Vue.js](https://vuejs.org/)
+- [Vite](https://vite.dev/)
 - [Typescript](https://www.typescriptlang.org/)
 
-## Project setup
+## Project Setup
 
-```
+```bash
 npm install
 ```
 
 ### Compiles and hot-reloads for development
 
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-
-```
-npm run build
+```bash
+npm run dev
 ```
 
-### Lints and fixes files
+### Publish app to GitHub Pages
 
+The app can be deployed to GitHub Pages using the following command:
+
+```bash
+npm run deploy
 ```
-npm run lint
-```
 
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+This will build the app and push the contents of the `dist` folder to the `gh-pages` branch of the repository.
