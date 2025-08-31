@@ -2,8 +2,10 @@
   <div id="app">
     <the-header />
     <router-view v-slot="{ Component }">
-      <transition name="route"
-        mode="out-in">
+      <transition
+        name="route"
+        mode="out-in"
+      >
         <component :is="Component" />
       </transition>
     </router-view>
@@ -21,8 +23,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./assets/styles/colours.scss";
-@import "./assets/styles/forms.scss";
+@import './assets/styles/colours.css';
+@import './assets/styles/forms.css';
 
 * {
   box-sizing: border-box;
