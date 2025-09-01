@@ -8,15 +8,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
+import { useQuestionsStore } from '@/stores/questions'
 import QuestionForm from './QuestionForm.vue'
 import { Question } from '@/types/Question'
 import { ProcessType } from '@/enums/ProcessType'
 import { QuestionType } from '@/enums/QuestionType'
 
-const store = useStore()
+const questionsStore = useQuestionsStore()
 const router = useRouter()
 
 /**
@@ -32,7 +32,7 @@ const submitForm = (formData: Question): void => {
       questionType: formData.questionType,
       answer: formData.answer,
     }
-    store.commit('questions/newQuestion', newQuestion)
+    questionsStore.newQuestion(newQuestion)
   } else if (formData.questionType === QuestionType.multipleChoice) {
     const newQuestion = {
       id: uuidv4(),
@@ -40,7 +40,7 @@ const submitForm = (formData: Question): void => {
       questionType: formData.questionType,
       choices: formData.choices,
     }
-    store.commit('questions/newQuestion', newQuestion)
+    questionsStore.newQuestion(newQuestion)
   }
   router.replace('/questions')
 }

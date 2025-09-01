@@ -18,28 +18,12 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { mapMutations, mapState } from 'vuex'
+<script lang="ts" setup>
+import { storeToRefs } from 'pinia'
+import { useQuestionsStore } from '@/stores/questions'
 import QuestionItem from '../components/questions/QuestionItem.vue'
 
-export default defineComponent({
-  name: 'QuestionsPage',
-
-  components: {
-    'question-item': QuestionItem,
-  },
-
-  computed: {
-    ...mapState('questions', ['questions']),
-  },
-
-  methods: {
-    ...mapMutations('questions', ['deleteQuestion']),
-    // Using this.$store
-    // deleteQuestion(index) {
-    //   this.$store.commit('questions/deleteQuestion', index)
-    // },
-  },
-})
+const questionsStore = useQuestionsStore()
+const { questions } = storeToRefs(questionsStore)
+const { deleteQuestion } = questionsStore
 </script>

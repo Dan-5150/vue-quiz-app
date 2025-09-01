@@ -7,9 +7,7 @@
       >
         <template v-if="correctAnswer === null">
           <quiz-multiple-choice
-            v-if="
-              selectedQuestion?.questionType === QuestionType.multipleChoice
-            "
+            v-if="selectedQuestion?.questionType === QuestionType.multipleChoice"
             :question="selectedQuestion"
             @choice-select="choiceSelect"
           />
@@ -41,7 +39,7 @@
       v-if="correctAnswer !== null && !isLastQuestion"
       class="form-control"
     >
-      <base-button @click.native="nextQuestion"> Next Question </base-button>
+      <base-button @click="nextQuestion"> Next Question </base-button>
     </div>
     <div
       v-else-if="correctAnswer !== null && isLastQuestion"
@@ -59,15 +57,15 @@
 
 <script lang="ts" setup>
 import { ref, computed, onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { useQuizStore } from '@/stores/quiz'
 import QuizMultipleChoice from './QuizMultipleChoice.vue'
 import QuizWritten from './QuizWritten.vue'
 import { SortedQuestion } from '@/types/SortedQuestion'
 import { Choice } from '@/types/Choice'
 import { QuestionType } from '@/enums/QuestionType'
 
-const store = useStore()
+const quizStore = useQuizStore()
 const router = useRouter()
 
 const props = defineProps({
@@ -84,7 +82,7 @@ const correctAnswer = ref<boolean | null>(null)
  * Get sorted questions from store
  */
 const sortedQuestions = computed(() => {
-  return store.state.quiz.sortedQuestions
+  return quizStore.sortedQuestions
 })
 
 /**
@@ -104,9 +102,7 @@ const feedbackClass = computed<string>(() => {
  * Determine if question is last question in quiz
  */
 const isLastQuestion = computed<boolean>(() => {
-  const currentQnIndex = sortedQuestions.value.findIndex(
-    (question: SortedQuestion) => question.id === props.id,
-  )
+  const currentQnIndex = sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id)
   const lastQnIndex = sortedQuestions.value.length - 1
   return lastQnIndex === currentQnIndex
 })
@@ -115,9 +111,7 @@ const isLastQuestion = computed<boolean>(() => {
  * Get current question from route ID
  */
 onBeforeMount((): void => {
-  selectedQuestion.value = sortedQuestions.value.find(
-    (question: SortedQuestion) => question.id === props.id,
-  )
+  selectedQuestion.value = sortedQuestions.value.find((question: SortedQuestion) => question.id === props.id)
 })
 
 /**
@@ -130,12 +124,10 @@ const choiceSelect = (choice: Choice): void => {
   } else {
     correctAnswer.value = false
   }
-  store.commit('quiz/addQuizResult', {
+  quizStore.addQuizResult({
     isCorrect: correctAnswer.value,
     response: choice.answer,
-    index: sortedQuestions.value.findIndex(
-      (question: SortedQuestion) => question.id === props.id,
-    ),
+    index: sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id),
   })
 }
 
@@ -144,20 +136,15 @@ const choiceSelect = (choice: Choice): void => {
  * @param answer Users answer
  */
 const writtenSelect = (answer: string): void => {
-  if (
-    answer.trim().toLowerCase() ===
-    selectedQuestion.value?.answer?.trim().toLowerCase()
-  ) {
+  if (answer.trim().toLowerCase() === selectedQuestion.value?.answer?.trim().toLowerCase()) {
     correctAnswer.value = true
   } else {
     correctAnswer.value = false
   }
-  store.commit('quiz/addQuizResult', {
+  quizStore.addQuizResult({
     isCorrect: correctAnswer.value,
     response: answer,
-    index: sortedQuestions.value.findIndex(
-      (question: SortedQuestion) => question.id === props.id,
-    ),
+    index: sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id),
   })
 }
 
@@ -165,9 +152,7 @@ const writtenSelect = (answer: string): void => {
  * Get ID for next question for route link
  */
 const nextQuestion = (): void => {
-  const currentIndex = sortedQuestions.value.findIndex(
-    (question: SortedQuestion) => question.id === props.id,
-  )
+  const currentIndex = sortedQuestions.value.findIndex((question: SortedQuestion) => question.id === props.id)
   const newQuestion = sortedQuestions.value[currentIndex + 1]
   router.replace(`/quiz/${newQuestion.id}`)
 }

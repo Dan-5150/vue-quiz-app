@@ -6,9 +6,7 @@
         <h1>Final Score</h1>
         <h2>{{ score }}/{{ numQuestions }}</h2>
       </base-card>
-      <base-button @click.native="sortResults">
-        Sort by Correct/Incorrect
-      </base-button>
+      <base-button @click="sortResults"> Sort by Correct/Incorrect </base-button>
       <ul>
         <li
           v-for="(question, index) in sortedQuestions"
@@ -40,27 +38,27 @@
 
 <script lang="ts" setup>
 import { ref, computed, onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
 import { useRouter, onBeforeRouteLeave } from 'vue-router'
+import { useQuizStore } from '@/stores/quiz'
 import { SortedQuestion } from '@/types/SortedQuestion'
 import { Choice } from '@/types/Choice'
 import { QuestionType } from '@/enums/QuestionType'
 
+const quizStore = useQuizStore()
 const router = useRouter()
-const store = useStore()
 
 const score = ref(0)
 
 /**
  * Sort quiz results
  */
-const sortResults = (): void => store.commit('quiz/sortQuizResults')
+const sortResults = (): void => quizStore.sortQuizResults()
 
 /**
  * Get sorted questions from quiz
  */
 const sortedQuestions = computed<SortedQuestion[]>(() => {
-  return store.state.quiz.sortedQuestions
+  return quizStore.sortedQuestions
 })
 
 /**
@@ -77,13 +75,13 @@ onBeforeMount((): void => {
   if (sortedQuestions.value.length === 0) {
     router.push('/')
   }
-  calcaulateScore()
+  calculateScore()
 })
 
 /**
  * Loop through questions and calculate final score
  */
-const calcaulateScore = (): void => {
+const calculateScore = (): void => {
   for (const question of sortedQuestions.value) {
     if (question.isCorrect) score.value++
   }
@@ -109,17 +107,14 @@ const correctChoice = (choices: Choice[] | undefined): string | undefined => {
  */
 onBeforeRouteLeave((_to, _from, next): void => {
   // Navigate away if no results found
-  if (store.state.quiz.sortedQuestions.length === 0) {
+  if (quizStore.sortedQuestions.length === 0) {
     next()
     return
   }
   // Display confirmation message
-  const confirm = window.confirm(
-    'Are you sure you want to leave? All your quiz results will be cleared.',
-  )
+  const confirm = window.confirm('Are you sure you want to leave? All your quiz results will be cleared.')
   if (confirm) {
-    // this.clearQuizResults()
-    store.commit('quiz/clearQuizResults')
+    quizStore.clearQuizResults()
     next()
   } else {
     next(false)

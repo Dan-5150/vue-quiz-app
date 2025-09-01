@@ -28,7 +28,7 @@
             <base-button
               type="button"
               classes="small red"
-              @click.native="clearAge"
+              @click="clearAge"
             >
               Clear
             </base-button>
@@ -37,7 +37,7 @@
             v-else
             type="button"
             classes="small"
-            @click.native="calculateUserAge"
+            @click="calculateUserAge"
           >
             Get Age
           </base-button>
@@ -68,13 +68,13 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeMount, reactive, ref } from 'vue'
-import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { useQuizStore } from '@/stores/quiz'
 import { FormValues } from '@/types/Form'
 import { User } from '@/types/QuizState'
 import { SortOrder } from '@/enums/SortOrder'
 
-const store = useStore()
+const quizStore = useQuizStore()
 const router = useRouter()
 
 const username = reactive<FormValues>({
@@ -105,21 +105,21 @@ const isLoading = ref(false)
  * Return user info from store
  */
 const user = computed<User>(() => {
-  return store.state.quiz.user
+  return quizStore.user
 })
 
 /**
  * Clear existing user info
  */
 onBeforeMount((): void => {
-  store.commit('quiz/clearUserInfo')
+  clearAge()
 })
 
 /**
  * Clear calculated age
  */
 const clearAge = (): void => {
-  store.commit('quiz/clearUserInfo')
+  quizStore.clearUserInfo()
 }
 
 /**
@@ -140,11 +140,11 @@ const calculateUserAge = async (): Promise<void> => {
 
   isLoading.value = true
   try {
-    await store.dispatch('quiz/fetchUserAge', {
+    await quizStore.fetchUserAge({
       name: username.value,
     })
-  } catch (error: any) {
-    console.log(error.message || 'Something went wrong!')
+  } catch (error: unknown) {
+    console.error((error as Error).message || 'Something went wrong!')
   }
   isLoading.value = false
 }
@@ -164,8 +164,8 @@ const clearValidity = (input: FormValues): void => {
  */
 const submitForm = (): void => {
   validateForm()
-  store.commit('quiz/updateSortOrder', selectedSortOrder.value)
-  store.dispatch('quiz/sortQuestions', selectedSortOrder.value)
+  quizStore.updateSortOrder(selectedSortOrder.value)
+  quizStore.sortQuestions(selectedSortOrder.value)
   router.replace('/quiz-setup')
 }
 </script>

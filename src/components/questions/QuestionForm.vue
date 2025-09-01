@@ -44,10 +44,7 @@
     </div>
     <!-- Text answer -->
     <div
-      v-if="
-        questionType.value === QuestionType.text ||
-        editQuestion.questionType === QuestionType.text
-      "
+      v-if="questionType.value === QuestionType.text || editQuestion.questionType === QuestionType.text"
       class="form-control"
       :class="{ invalid: !textAnswer.isValid }"
     >
@@ -62,8 +59,7 @@
     <!-- Multiple choice controls -->
     <div
       v-else-if="
-        questionType.value === QuestionType.multipleChoice ||
-        editQuestion.questionType === QuestionType.multipleChoice
+        questionType.value === QuestionType.multipleChoice || editQuestion.questionType === QuestionType.multipleChoice
       "
       class="form-control text-center"
     >
@@ -224,10 +220,7 @@ const validateForm = (): void => {
     formIsValid.value = false
   }
   // No choices (for new questions)
-  if (
-    choices.values.length === 0 &&
-    questionType.value === QuestionType.multipleChoice
-  ) {
+  if (choices.values.length === 0 && questionType.value === QuestionType.multipleChoice) {
     choices.isValid = false
     formIsValid.value = false
   }

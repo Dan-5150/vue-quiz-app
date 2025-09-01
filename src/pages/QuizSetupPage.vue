@@ -44,34 +44,34 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { useQuizStore } from '@/stores/quiz'
 import UserInfo from '../components/quiz/UserInfo.vue'
 import { User } from '@/types/QuizState'
 import { SortOrder } from '@/enums/SortOrder'
 import { SortedQuestion } from '@/types/SortedQuestion'
 
+const quizStore = useQuizStore()
 const route = useRoute()
-const store = useStore()
 
 /**
  * Return user
  */
 const user = computed<User>(() => {
-  return store.state.quiz.user
+  return quizStore.user
 })
 
 /**
  * Return sort order
  */
 const sortOrder = computed<SortOrder>(() => {
-  return store.state.quiz.sortOrder
+  return quizStore.sortOrder
 })
 
 /**
  * Return sorted questions
  */
 const sortedQuestions = computed<SortedQuestion[]>(() => {
-  return store.state.quiz.sortedQuestions
+  return quizStore.sortedQuestions
 })
 
 /**

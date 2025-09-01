@@ -20,11 +20,11 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { useQuizStore } from '@/stores/quiz'
 import { SortedQuestion } from '@/types/SortedQuestion'
 
-const store = useStore()
+const quizStore = useQuizStore()
 const router = useRouter()
 
 defineProps<{
@@ -35,7 +35,7 @@ defineProps<{
  * Get quiz sorted questions
  */
 const sortedQuestions = computed<SortedQuestion[]>(() => {
-  return store.state.quiz.sortedQuestions
+  return quizStore.sortedQuestions
 })
 
 /**
