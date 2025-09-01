@@ -8,7 +8,7 @@
       <div>
         <div class="header">
           <h3>{{ index + 1 }}. {{ question.question }}</h3>
-          <div>
+          <div class="button-group">
             <base-button
               classes="small"
               :link="true"
@@ -101,6 +101,10 @@ ul {
   @media (max-width: 576px) {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .button-group {
+    flex: none;
   }
 }
 
