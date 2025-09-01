@@ -15,8 +15,9 @@
 
 <script lang="ts" setup>
 import { PropType } from 'vue'
-import { Question } from '@/types/Question'
+
 import { Choice } from '@/types/Choice'
+import { Question } from '@/types/Question'
 
 defineProps({
   question: {

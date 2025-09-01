@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import defaultQuestions from '../assets/default-questions.json'
+
+import defaultQuestions from '@/assets/default-questions.json'
 import { Question } from '@/types/Question'
-import { QuestionsState } from '../types/QuestionsState'
+import { QuestionsState } from '@/types/QuestionsState'
 
 const fixedQuestions = defaultQuestions as Question[]
 

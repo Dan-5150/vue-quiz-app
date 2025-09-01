@@ -18,7 +18,7 @@
             </base-button>
             <base-button
               classes="small red"
-              @click.native="deleteQuestion(index)"
+              @click="deleteQuestion(index)"
             >
               Delete
             </base-button>

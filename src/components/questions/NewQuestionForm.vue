@@ -8,13 +8,15 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
-import { useQuestionsStore } from '@/stores/questions'
-import QuestionForm from './QuestionForm.vue'
-import { Question } from '@/types/Question'
+import { useRouter } from 'vue-router'
+
 import { ProcessType } from '@/enums/ProcessType'
 import { QuestionType } from '@/enums/QuestionType'
+import { useQuestionsStore } from '@/stores/questions'
+import { Question } from '@/types/Question'
+
+import QuestionForm from './QuestionForm.vue'
 
 const questionsStore = useQuestionsStore()
 const router = useRouter()

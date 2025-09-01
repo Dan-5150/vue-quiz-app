@@ -37,12 +37,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onBeforeMount } from 'vue'
-import { useRouter, onBeforeRouteLeave } from 'vue-router'
-import { useQuizStore } from '@/stores/quiz'
-import { SortedQuestion } from '@/types/SortedQuestion'
-import { Choice } from '@/types/Choice'
+import { computed, onBeforeMount, ref } from 'vue'
+import { onBeforeRouteLeave, useRouter } from 'vue-router'
+
 import { QuestionType } from '@/enums/QuestionType'
+import { useQuizStore } from '@/stores/quiz'
+import { Choice } from '@/types/Choice'
+import { SortedQuestion } from '@/types/SortedQuestion'
 
 const quizStore = useQuizStore()
 const router = useRouter()

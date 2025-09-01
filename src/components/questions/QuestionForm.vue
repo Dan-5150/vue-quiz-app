@@ -66,7 +66,7 @@
       <base-button
         type="button"
         classes="small"
-        @click.native="addNewChoice"
+        @click="addNewChoice"
       >
         Add New Choice
       </base-button>
@@ -100,7 +100,7 @@
         <base-button
           type="button"
           classes="small red"
-          @click.native="removeChoice(index)"
+          @click="removeChoice(index)"
         >
           Remove
         </base-button>
@@ -131,11 +131,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onBeforeMount, PropType } from 'vue'
+import { onBeforeMount, PropType, reactive, ref } from 'vue'
+
 import { ProcessType } from '@/enums/ProcessType'
-import { Question } from '@/types/Question'
 import { QuestionType } from '@/enums/QuestionType'
-import { FormValues, FormChoices } from '@/types/Form'
+import { FormChoices, FormValues } from '@/types/Form'
+import { Question } from '@/types/Question'
 
 const props = defineProps({
   processType: {

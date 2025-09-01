@@ -12,13 +12,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useQuestionsStore } from '@/stores/questions'
-import QuestionForm from '../components/questions/QuestionForm.vue'
-import { Question } from '@/types/Question'
+
+import QuestionForm from '@/components/questions/QuestionForm.vue'
 import { ProcessType } from '@/enums/ProcessType'
 import { QuestionType } from '@/enums/QuestionType'
+import { useQuestionsStore } from '@/stores/questions'
+import { Question } from '@/types/Question'
 
 const questionsStore = useQuestionsStore()
 const router = useRouter()

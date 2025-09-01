@@ -20,8 +20,9 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
+
+import QuestionItem from '@/components/questions/QuestionItem.vue'
 import { useQuestionsStore } from '@/stores/questions'
-import QuestionItem from '../components/questions/QuestionItem.vue'
 
 const questionsStore = useQuestionsStore()
 const { questions } = storeToRefs(questionsStore)

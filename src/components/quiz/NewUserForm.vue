@@ -69,10 +69,11 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+
+import { SortOrder } from '@/enums/SortOrder'
 import { useQuizStore } from '@/stores/quiz'
 import { FormValues } from '@/types/Form'
 import { User } from '@/types/QuizState'
-import { SortOrder } from '@/enums/SortOrder'
 
 const quizStore = useQuizStore()
 const router = useRouter()

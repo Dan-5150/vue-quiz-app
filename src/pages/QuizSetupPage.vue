@@ -2,7 +2,7 @@
   <section>
     <base-card>
       <img
-        src="../assets/undraw_questions.svg"
+        src="@/assets/undraw_questions.svg"
         alt="FAQ"
         height="120"
       />
@@ -44,10 +44,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useQuizStore } from '@/stores/quiz'
-import UserInfo from '../components/quiz/UserInfo.vue'
-import { User } from '@/types/QuizState'
+
+import UserInfo from '@/components/quiz/UserInfo.vue'
 import { SortOrder } from '@/enums/SortOrder'
+import { useQuizStore } from '@/stores/quiz'
+import { User } from '@/types/QuizState'
 import { SortedQuestion } from '@/types/SortedQuestion'
 
 const quizStore = useQuizStore()

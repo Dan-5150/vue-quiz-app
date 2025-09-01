@@ -1,13 +1,14 @@
 import { SortOrder } from '@/enums/SortOrder'
+
 import { SortedQuestion } from './SortedQuestion'
 
 export interface QuizState {
-  user: User
-  sortOrder: SortOrder
   sortedQuestions: SortedQuestion[]
+  sortOrder: SortOrder
+  user: User
 }
 
 export interface User {
+  age: null | number
   name: string
-  age: number | null
 }

@@ -1,5 +1,6 @@
 import eslint from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import perfectionist from 'eslint-plugin-perfectionist'
 import eslintPluginVue from 'eslint-plugin-vue'
 import globals from 'globals'
 import typescriptEslint from 'typescript-eslint'
@@ -15,11 +16,17 @@ export default typescriptEslint.config(
     files: ['**/*.{ts,vue}'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'module',
       globals: globals.browser,
       parserOptions: {
         parser: typescriptEslint.parser,
       },
+      sourceType: 'module',
+    },
+  },
+  perfectionist.configs['recommended-natural'],
+  {
+    rules: {
+      'perfectionist/sort-objects': ['off'],
     },
   },
   eslintConfigPrettier,

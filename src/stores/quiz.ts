@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
+
+import { SortOrder } from '@/enums/SortOrder'
 import { Question } from '@/types/Question'
 import { QuizState, User } from '@/types/QuizState'
 import { QuestionResponse, SortedQuestion } from '@/types/SortedQuestion'
-import { SortOrder } from '@/enums/SortOrder'
+
 import { useQuestionsStore } from './questions'
 
 export const useQuizStore = defineStore('quiz', {
@@ -78,7 +80,7 @@ export const useQuizStore = defineStore('quiz', {
     async fetchUserAge(payload: { name: string }): Promise<void> {
       const response = await fetch(`https://api.agify.io/?name=${payload.name}`)
       const responseData = await response.json()
-      if (!response.ok) {
+      if (!response.ok || responseData.age === null) {
         throw new Error(responseData.message)
       }
       const newUser = {

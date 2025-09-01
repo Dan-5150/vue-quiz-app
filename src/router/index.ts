@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '../pages/HomePage.vue'
+
+import HomePage from '@/pages/HomePage.vue'
 
 const routes = [
   {
@@ -10,11 +11,11 @@ const routes = [
   {
     path: '/questions',
     name: 'questions',
-    component: () => import('../pages/QuestionsPage.vue'),
+    component: () => import('@/pages/QuestionsPage.vue'),
     children: [
       {
         path: 'new',
-        component: () => import('../components/questions/NewQuestionForm.vue'),
+        component: () => import('@/components/questions/NewQuestionForm.vue'),
       },
     ],
   },
@@ -22,16 +23,16 @@ const routes = [
     path: '/questions/:id/edit',
     name: 'edit-question',
     props: true,
-    component: () => import('../pages/EditQuestionPage.vue'),
+    component: () => import('@/pages/EditQuestionPage.vue'),
   },
   {
     path: '/quiz-setup',
     name: 'quiz-setup',
-    component: () => import('../pages/QuizSetupPage.vue'),
+    component: () => import('@/pages/QuizSetupPage.vue'),
     children: [
       {
         path: 'new-user',
-        component: () => import('../components/quiz/NewUserForm.vue'),
+        component: () => import('@/components/quiz/NewUserForm.vue'),
       },
     ],
   },
@@ -39,24 +40,24 @@ const routes = [
     path: '/quiz',
     name: 'quiz',
     props: true,
-    component: () => import('../pages/QuizPage.vue'),
+    component: () => import('@/pages/QuizPage.vue'),
     children: [
       {
         path: ':id',
         props: true,
-        component: () => import('../components/quiz/QuizQuestion.vue'),
+        component: () => import('@/components/quiz/QuizQuestion.vue'),
       },
     ],
   },
   {
     path: '/quiz-finish',
     name: 'quiz-finish',
-    component: () => import('../pages/QuizFinishPage.vue'),
+    component: () => import('@/pages/QuizFinishPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
-    component: () => import('../pages/PageNotFound.vue'),
+    component: () => import('@/pages/PageNotFound.vue'),
   },
 ]
 

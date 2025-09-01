@@ -1,12 +1,13 @@
-import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue'
 
+import BaseButton from '@/components/UI/BaseButton.vue'
 // Global components
 import BaseCard from '@/components/UI/BaseCard.vue'
-import BaseButton from '@/components/UI/BaseButton.vue'
 import BaseLoadingSpinner from '@/components/UI/BaseLoadingSpinner.vue'
+
+import App from './App.vue'
+import router from './router'
 
 const pinia = createPinia()
 const app = createApp(App)

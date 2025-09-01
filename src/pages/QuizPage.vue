@@ -21,6 +21,7 @@
 <script lang="ts" setup>
 import { computed, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
+
 import { useQuizStore } from '@/stores/quiz'
 import { SortedQuestion } from '@/types/SortedQuestion'
 

@@ -14,7 +14,7 @@
       <base-button
         classes="small"
         :disabled="!answer"
-        @click.native="writtenSelect"
+        @click="writtenSelect"
       >
         Submit
       </base-button>
@@ -23,7 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, PropType } from 'vue'
+import { PropType, ref } from 'vue'
+
 import { Question } from '@/types/Question'
 
 defineProps({

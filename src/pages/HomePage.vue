@@ -2,7 +2,7 @@
   <section>
     <base-card>
       <img
-        src="../assets/undraw_faq.svg"
+        src="@/assets/undraw_faq.svg"
         alt="FAQ"
         height="200"
       />
